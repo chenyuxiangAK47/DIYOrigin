@@ -1,0 +1,119 @@
+================================================================================
+排查清单更新说明
+================================================================================
+更新时间: 2025-12-20
+更新原因: 原清单中的日志关键词与实际代码输出不匹配
+
+================================================================================
+主要修改
+================================================================================
+
+【修改前的问题】
+原清单使用了不存在的日志关键词，例如：
+- "[Route] 使用 PendingMenuSwitch: preset_origin_selection" （这个存在，但格式可能不同）
+- "Switch: cur=origin_type_selection opt=preset_origin_option resolved=preset_origin_selection" （这个存在）
+- "[SlaveEscape][Patch] TargetType 找到" （这个存在）
+
+但实际上，代码中真正会打印的日志是：
+- "Select: menu=... option=... hasSelectedKey=..." （OnNarrativeMenuOptionSelected Prefix）
+- "Postfix: 当前菜单 = ..." （OnNarrativeMenuOptionSelected Postfix）
+- "Switch: cur=... opt=... resolved=..." （TrySwitchToNextMenu Prefix）
+- "[Route] 使用 PendingMenuSwitch: ..." （OriginMenuRouter.ResolveNextMenuId）
+- "ForceSwitch: target=... found=... setCurrent=... modifyCalled=..." （TrySwitchToNextMenu 强制切换）
+
+【修改后的改进】
+1. 使用真实的日志关键词（直接从代码中提取）
+2. 增加了 7 个排查步骤（原来只有 5 个）
+3. 每个步骤都标注了日志来源（哪个 Patch/方法）
+4. 增加了更详细的错误诊断提示
+
+================================================================================
+真实日志序列（按执行顺序）
+================================================================================
+
+【阶段1：点击选项】
+Select: menu=origin_type_selection option=preset_origin_option hasSelectedKey=False
+Postfix: 当前菜单 = origin_type_selection
+Postfix:   InputMenuId = ...
+Postfix:   OutputMenuId = ...
+Postfix: PendingMenuSwitch=preset_origin_selection (保留给 TrySwitchToNextMenu 使用)
+
+【阶段2：菜单切换】
+Switch: cur=origin_type_selection opt=preset_origin_option resolved=preset_origin_selection
+[Route] 使用 PendingMenuSwitch: preset_origin_selection (cur=origin_type_selection opt=preset_origin_option)
+ForceSwitch: target=preset_origin_selection found=True setCurrent=True modifyCalled=True
+
+【阶段3：选择逃奴 Node5】
+用户选择战奴逃亡-Node5-留沙
+[SlaveEscape][Node5] 已保存期望出生位置: direction=desert
+
+【阶段4：角色创建完成】
+[SlaveEscape][Finalize] OnCharacterCreationFinalized Postfix called
+[SlaveEscape][Finalize] 开始设置出生位置: direction=desert
+[SlaveEscape][Teleport] success=True/False
+
+================================================================================
+关键文件位置
+================================================================================
+
+日志输出的关键代码位置：
+1. OriginSystemPatches.cs
+   - OnNarrativeMenuOptionSelectedPatch.Prefix: "Select: menu=..."
+   - OnNarrativeMenuOptionSelectedPatch.Postfix: "Postfix: 当前菜单 = ..."
+   - OnCharacterCreationFinalizedPatch: "[SlaveEscape][Finalize] ..."
+
+2. TrySwitchToNextMenuPatch.cs
+   - TrySwitchToNextMenuPatch.Prefix: "Switch: cur=..." 和 "ForceSwitch: target=..."
+
+3. OriginMenuRouter.cs
+   - ResolveNextMenuId: "[Route] 使用 PendingMenuSwitch: ..."
+
+4. SlaveEscapeNodes.cs
+   - SlaveDirectionDesertOnSelect: "用户选择战奴逃亡-Node5-留沙"
+   - SaveSlaveEscapeStartingLocation: "[SlaveEscape][Node5] 已保存期望出生位置: ..."
+
+================================================================================
+使用建议
+================================================================================
+
+1. 运行游戏并选择逃奴出身 → 选择"沙漠深处"
+2. 在日志文件中搜索 "Select: menu=" 确认 Patch 是否触发
+3. 搜索 "Switch: cur=" 确认路由是否工作
+4. 搜索 "[SlaveEscape][Node5]" 确认 Node5 选择是否保存
+5. 搜索 "[SlaveEscape][Finalize]" 确认 Finalize Patch 是否触发
+6. 搜索 "[SlaveEscape][Teleport] success=" 确认位置设置是否成功
+
+如果某个阶段的日志完全缺失，说明该阶段未执行，需要检查：
+- DLL 是否加载（第一步）
+- Patch 是否注册（第二步）
+- 路由逻辑是否正确（第三步）
+- OnSelect 回调是否触发（第四步）
+- Finalize Patch 是否触发（第五步）
+- 位置设置逻辑是否正确（第六步）
+
+================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

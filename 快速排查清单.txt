@@ -1,0 +1,113 @@
+================================================================================
+OriginSystemMod 快速排查清单（基于当前代码的真实日志）
+================================================================================
+
+【第一步：确认 DLL 是否加载】
+在日志中搜索：
+✓ "[OriginSystem] DLL 加载信息" 或 "[OriginSystem] Harmony PatchAll 完成"
+✓ 或者任何包含 "OriginSystem" 的日志
+
+如果没有 → DLL 未被加载，检查 SubModule.xml 和 DLL 路径
+
+【第二步：确认 Patch 是否在运行】
+在日志中搜索：
+✓ "Select: menu=... option=... hasSelectedKey=..."
+   （这是 OnNarrativeMenuOptionSelected Prefix 的日志）
+✓ "Postfix: 当前菜单 = ..."
+   （这是 OnNarrativeMenuOptionSelected Postfix 的日志）
+
+如果没有 → Harmony Patch 可能未注册或未触发，检查：
+  - Harmony.PatchAll 是否执行
+  - Patch 目标方法是否存在
+
+【第三步：确认路由是否工作】
+在日志中搜索：
+✓ "Switch: cur=... opt=... resolved=..."
+   （这是 TrySwitchToNextMenu Prefix 的日志）
+✓ "[Route] 使用 PendingMenuSwitch: ..."
+   （这是 OriginMenuRouter.ResolveNextMenuId 的日志）
+✓ "ForceSwitch: target=... found=... setCurrent=... modifyCalled=..."
+   （这是 TrySwitchToNextMenu 强制切换的日志）
+
+如果 Switch 日志中 resolved 一直是 NULL 或原版菜单 → 路由未工作，检查：
+  - PendingMenuSwitch 是否被提前清空（检查 ResetState 日志）
+  - ResolveNextMenuId 是否被调用
+  - 菜单的 InputMenuId 是否匹配
+
+【第四步：确认逃奴 Node5 选择是否保存】
+在日志中搜索：
+✓ "用户选择战奴逃亡-Node5-留沙" 或 "用户选择战奴逃亡-Node5-投奔帝国"
+✓ "[SlaveEscape][Node5] 已保存期望出生位置: direction=desert" 或 "direction=empire"
+
+如果没有 → OnSelect 回调未触发，检查：
+  - SlaveDirectionDesertOnSelect 或 SlaveDirectionEmpireOnSelect 是否被调用
+  - SaveSlaveEscapeStartingLocation 是否执行
+
+【第五步：确认 Finalize Patch 是否触发】
+在日志中搜索：
+✓ "[SlaveEscape][Patch] TargetType 找到: ..."
+✓ "[SlaveEscape][Patch] TargetMethod 找到: ..."
+✓ "[SlaveEscape][Finalize] OnCharacterCreationFinalized Postfix called"
+
+如果没有 → Finalize Patch 未注册或未触发，检查：
+  - TargetType 和 TargetMethod 是否返回 null
+  - 游戏版本是否变化导致方法名/签名改变
+
+【第六步：确认出生位置是否设置】
+在日志中搜索：
+✓ "[SlaveEscape][Finalize] 开始设置出生位置: direction=desert"
+✓ "[SlaveEscape][Teleport] success=True" 或 "success=False"
+✓ "[SlaveEscape][Apply] 在 ApplySlaveEscapeNode5 中直接调用 SetSlaveEscapeStartingLocation: desert"
+
+如果 success=False → 出生位置设置失败，检查：
+  - MobileParty.MainParty 和 Campaign.Current 是否为空
+  - Position2D setter 是否可用（检查反射日志）
+  - Settlement 是否找到（检查城市列表日志）
+
+【第七步：确认 ResetState 是否清空状态】
+在日志中搜索：
+✗ "[ResetState] 清空了 PendingStartDirection=desert" 或类似警告
+
+如果有 → ResetState 在角色创建过程中被调用，需要延迟调用时机
+
+================================================================================
+日志文件位置
+================================================================================
+
+1. %ProgramData%\Mount and Blade II Bannerlord\Logs\ （主要位置）
+2. %ProgramData%\Mount & Blade II Bannerlord\Logs\
+3. %USERPROFILE%\Documents\Mount and Blade II Bannerlord\Logs\ （备用）
+4. %LOCALAPPDATA%\Mount and Blade II Bannerlord\Logs\ （备用）
+
+最新日志文件通常是按时间排序的最后一个 .log 文件
+
+================================================================================
+关键日志关键词（按实际代码输出）
+================================================================================
+
+【路由相关】
+- "Select: menu=" （每次点击选项时）
+- "Postfix: 当前菜单 =" （选项选择后）
+- "Switch: cur=" （菜单切换时）
+- "[Route] 使用 PendingMenuSwitch:" （路由解析时）
+- "ForceSwitch: target=" （强制切换结果）
+
+【逃奴出生位置相关】
+- "用户选择战奴逃亡-Node5-" （Node5 选择时）
+- "[SlaveEscape][Node5] 已保存期望出生位置:" （保存位置时）
+- "[SlaveEscape][Patch] TargetType 找到:" （Patch 注册时）
+- "[SlaveEscape][Finalize] OnCharacterCreationFinalized Postfix called" （Finalize 触发时）
+- "[SlaveEscape][Teleport] success=" （位置设置结果）
+
+【错误相关】
+- "Error" 或 "Exception" （任何错误）
+- "[Route] 错误：" （路由错误）
+- "[SlaveEscape][Finalize] Postfix 异常:" （Finalize 异常）
+
+【通用】
+- "OriginSystem" （所有 OriginSystem 相关日志）
+- "ResetState" （状态重置相关）
+
+================================================================================
+
+

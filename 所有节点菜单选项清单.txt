@@ -1,0 +1,284 @@
+========================================
+所有节点菜单选项清单
+========================================
+
+【预设出身节点菜单】
+
+========================================
+1. 草原叛酋 (rebel_chief_node1-4)
+========================================
+
+Node1: 你为何被定为叛酋
+- rebel_reason_refuse_tribute (拒绝纳贡)
+- rebel_reason_raid_caravan (掠夺商队)
+- rebel_reason_refuse_service (拒绝服兵)
+- rebel_reason_protect_tribe (保护部族)
+
+Node2: 你的叛乱战帮由谁组成
+- rebel_warband_nomads (游牧战士)
+- rebel_warband_light_cav (轻骑)
+- rebel_warband_mixed (混编)
+
+Node3: 你带走了什么"叛酋象征"
+- rebel_symbol_banner (战旗)
+- rebel_symbol_treasure (财宝)
+- rebel_symbol_seal (部族印玺)
+- rebel_symbol_people (族人)
+
+Node4: 你第一步要做什么
+- rebel_first_move_hide (躲藏)
+- rebel_first_move_raid (继续掠夺)
+- rebel_first_move_ally (找外援)
+
+========================================
+2. 迁徙王族 (wandering_prince_node1-4)
+========================================
+
+Node1: 你为何流亡
+- royal_exile_usurped (王位被篡夺-复国)
+- royal_exile_clan_war (宗族内斗失败-保命)
+- royal_exile_foresight (避祸远走-预见灾厄)
+- royal_exile_treasure (携宝出逃-现实)
+
+SubNode: 选择你的部族来源
+- wandering_prince_ochilan (斡赤兰诸部 - 蒙古原型，骑射为核心)
+- wandering_prince_dashi (大石余庭 - 西辽原型，混编兵力)
+- wandering_prince_kashan (喀珊兀诸部 - 库曼原型，轻骑为主)
+- wandering_prince_aigeli (艾格里军帐 - 突厥原型，重骑+步兵)
+- wandering_prince_tahun (蹋浑残部 - 匈人原型，超机动轻骑)
+
+Node3: 你准备如何面对汗廷
+- royal_strategy_infiltrate (融入汗廷-取代)
+- royal_strategy_new_kingdom (另立新国-边境)
+- royal_strategy_ally (先投他国-养兵)
+
+Node4: 你用什么证明你是王
+- royal_proof_seal (祖传印玺)
+- royal_proof_banner (史诗战旗)
+- royal_proof_wealth (财富分赏-收买人心)
+
+========================================
+3. 战奴逃亡 (slave_escape_node1-5)
+========================================
+
+Node1: 你被奴役前是什么人
+- slave_before_border_warrior (边境战士-被俘)
+- slave_before_steppe_bandit (草原响马-被卖)
+- slave_before_horse_thief (偷马贼-失手)
+- slave_before_mercenary (护商佣兵-误入沙漠)
+
+Node2: 你为什么会被抓
+- slave_captured_raid_village (劫掠阿塞莱村庄被活捉)
+- slave_captured_caravan_ambush (保护商队被奴隶贩子抓)
+- slave_captured_scapegoat (被草原贵族卖掉当替罪)
+- slave_captured_lost (沙漠迷路投降被卖)
+
+Node3: 你是怎么逃出来的
+- slave_escape_revolt (暴动逃亡-你亲手点燃了牢)
+- slave_escape_stealth (潜行逃亡-你买通了看守)
+- slave_escape_organized (组织逃亡-你带人一起跑)
+
+Node4: 逃跑时你带走了什么
+- slave_loot_sword_head (奴隶主的人头 + 好刀-复仇)
+- slave_loot_money (沉甸甸的钱袋子-实用)
+- slave_loot_companions (救走同伴-仁义)
+- slave_loot_papers (钥匙/地图/伪造文书-生存)
+
+Node5: 你往哪逃
+- slave_direction_steppe (回草原求洗白)
+- slave_direction_desert (留沙漠追杀奴贩)
+- slave_direction_empire (投奔帝国换身)
+
+========================================
+4. 汗廷旁支贵族 (minor_noble_node1-4)
+========================================
+
+Node1: 你为何被边缘化
+- minor_noble_maternal (母系旁支-血统不纯正)
+- minor_noble_wrong_side (父辈站错队-政治旧账)
+- minor_noble_unrewarded (封赏不足-功劳被吞)
+- minor_noble_too_dangerous (你太危险-太能打/太能说)
+
+Node2: 你带来的是面子还是刀子
+- minor_noble_style_etiquette (礼仪与赠礼-政治流)
+- minor_noble_style_military (战功与伤疤-军功流)
+- minor_noble_style_trade (交易与人脉-资源流)
+
+Node3: 开局随骑是哪一类
+- minor_noble_retinue_noble (贵族随骑-少但精)
+- minor_noble_retinue_light (轻骑护卫-数量更多)
+- minor_noble_retinue_mixed (混编家兵-稳定)
+
+Node4: 你要先靠近谁
+- minor_noble_alignment_khan (靠近可汗-风险高收益大)
+- minor_noble_alignment_clan (靠近大氏族-当门客)
+- minor_noble_alignment_neutral (保持中立-当机会主义者)
+
+========================================
+5. 西迁部族首领 (migrant_chief_node1-4)
+========================================
+
+Node1: 你为何西迁
+- migrant_reason_annexed (被更强部族吞并-逃命)
+- migrant_reason_drought (草场枯竭-生存迁徙)
+- migrant_reason_tax (汗廷征税过重-离心)
+- migrant_reason_blood_feud (血仇驱逐-氏族追杀)
+
+Node2: 你的族人组成
+- migrant_people_warriors (战士多-能打但耗粮)
+- migrant_people_families (妇孺多-生存压力大)
+- migrant_people_craftsmen (工匠与牧人多-更稳)
+
+Node3: 你带走了什么家当
+- migrant_assets_livestock (牲畜-粮与钱)
+- migrant_assets_horses (马匹-机动)
+- migrant_assets_relics (族中遗物-名望)
+
+Node4: 你想定居还是继续游牧
+- migrant_goal_settle (找边境领主当附庸-定居)
+- migrant_goal_mercenary (当边境雇佣部族-游牧)
+- migrant_goal_revenge (回草原复仇-硬核)
+
+========================================
+6. 汗廷军叛逃者 (army_deserter_node1-4)
+========================================
+
+Node1: 你为何叛逃
+- deserter_reason_scapegoat (被当替罪羊-冤案)
+- deserter_reason_unpaid (军饷被克扣-愤怒)
+- deserter_reason_massacre (屠杀命令-道德冲突)
+- deserter_reason_murder (私斗杀人-逃亡)
+
+Node2: 你带走了哪些军中人
+- deserter_followers_veteran_archer (骑射老兵-少而精)
+- deserter_followers_javelin (标枪骑-掠袭)
+- deserter_followers_mixed (混编-稳定但一般)
+
+Node3: 你带走了什么军需
+- deserter_supplies_gear (军械-好装备)
+- deserter_supplies_pay (军饷-钱)
+- deserter_supplies_docs (军令/名册-政治炸弹)
+
+Node4: 你打算洗白还是彻底当军阀
+- deserter_path_redemption (洗白-立功求赦)
+- deserter_path_warlord (军阀-掠夺生存)
+- deserter_path_exile (外逃-投靠他国)
+
+========================================
+7. 草原商路守护者 (trade_protector_node1-4)
+========================================
+
+Node1: 你守护哪条商路
+- trade_route_empire (草原-帝国边境线)
+- trade_route_desert (草原-沙漠线)
+- trade_route_internal (草原内部线-汗廷税口)
+
+Node2: 你靠什么吃饭
+- trade_model_guard_fee (护卫费-稳定)
+- trade_model_smuggling (灰色走私-暴利)
+- trade_model_monopoly (垄断补给-政治)
+
+Node3: 你的护卫队是什么风格
+- trade_guard_light_cav (轻骑护卫-机动)
+- trade_guard_horse_archer (弓骑护卫-远程)
+- trade_guard_mixed (混编护卫-稳)
+
+Node4: 你对汗廷的态度
+- trade_attitude_cooperate (合作-交税换安全)
+- trade_attitude_neutral (中立-谁都不站)
+- trade_attitude_resist (对抗-绕税口)
+
+========================================
+8. 可汗的雇佣战帮 (khans_mercenary_node1-4)
+========================================
+
+Node1: 你为何被可汗雇佣
+- mercenary_reason_raider (你是有名的掠袭者)
+- mercenary_reason_rescue (你救过可汗的人)
+- mercenary_reason_patron (你背后有商人金主)
+
+Node2: 你的战帮风格
+- mercenary_style_horse_archer (骑射主力)
+- mercenary_style_javelin (冲锋标枪)
+- mercenary_style_mixed (混编雇佣)
+
+Node3: 你拿到的预支是什么
+- mercenary_advance_loot (战利品预支-钱多)
+- mercenary_advance_gear (军械配发-装备好)
+- mercenary_advance_pass (通行令-权力)
+
+Node4: 你的底线
+- mercenary_bottomline_loyal (忠诚-不背叛)
+- mercenary_bottomline_profit (利益-随时跳槽)
+- mercenary_bottomline_ambition (野心-迟早自立)
+
+========================================
+9. 草原自由民 (free_cossack_node1-4)
+========================================
+
+Node1: 你为何来到草原
+- cossack_arrival_fugitive (逃亡-犯事)
+- cossack_arrival_profit (逐利-找机会)
+- cossack_arrival_exile (被放逐-政治失败)
+
+Node2: 你怎么活下来
+- cossack_survive_mercenary (当雇佣骑手-拿钱办事)
+- cossack_survive_hunt (打猎放牧-自给)
+- cossack_survive_smuggle (走私抢掠-灰黑)
+
+Node3: 你的战团是什么样
+- cossack_band_mixed (混装自由骑手-机动)
+- cossack_band_outcast (流亡者杂兵-人多)
+- cossack_band_elite (精悍小队-更强)
+
+Node4: 你对汗廷是什么态度
+- cossack_khanate_legitimacy (愿被吸纳-换合法身份)
+- cossack_khanate_independent (保持独立-谁也不站)
+- cossack_khanate_oppose (反感统治-天然对立)
+
+========================================
+10. 东方旧部复仇者 (old_guard_avenger_node1-4)
+========================================
+
+Node1: 你侍奉的旧主是谁
+- avenger_old_master_royal (东方旧王)
+- avenger_old_master_clan (被灭的强部族)
+- avenger_old_master_general (传奇将军-军魂)
+
+Node2: 你的仇敌是谁
+- avenger_enemy_clan (特定汗廷氏族-指定一个)
+- avenger_enemy_khanate (汗廷本身-全面敌对)
+- avenger_enemy_neighbor (外来侵略者-邻国)
+
+Node3: 你带来的旧部是什么样
+- avenger_veterans_archer (资深骑射手-精准)
+- avenger_veterans_infantry (老兵步兵-硬骨头)
+- avenger_veterans_mixed (混编残部-真实)
+
+Node4: 你如何开局复仇
+- avenger_opening_stealth (暗中积蓄-低调)
+- avenger_opening_public (公开宣言-造势)
+- avenger_opening_ally (先找外援-现实)
+
+========================================
+【非预设出身菜单】
+========================================
+
+非预设社会出身 (non_preset_social_origin)
+- social_origin_rural_peasant (农村平民)
+- social_origin_nomad_camp (游牧营地成员)
+- social_origin_urban_poor (城镇贫民)
+- social_origin_urban_artisan (城镇手工业者)
+- social_origin_caravan_follower (商队随行者)
+- social_origin_minor_clan (小氏族旁支)
+- social_origin_wanderer (流浪难民)
+
+========================================
+【总结】
+========================================
+
+预设出身节点菜单总数: 10个出身 × 平均4个节点 = 40个节点菜单
+非预设出身菜单: 1个主菜单 + 多个风味节点菜单
+
+每个节点菜单包含2-4个选项不等。
+

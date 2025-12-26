@@ -1,0 +1,132 @@
+C# 编译错误修复 - 问题代码清单
+
+编译错误：CS1010（常量中有换行符）、CS1056（意外的字符）、CS1003（语法错误，应输入","）
+根本原因：文件中有Unicode替换字符（U+FFFD，显示为）导致字符串未闭合，引号/括号丢失
+
+需要修复的文件和具体代码：
+
+==========================================
+1. MinorNobleNodes.cs - 第20行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("minor_noble_maternal", new TextObject("母系旁支，名分尴尬"), new TextObject("你是母系旁支，名分尴尬。魅力+4，与库塞特关系-1，标记：合法性低"), GetMinorNobleMaternalArgs, (m) => true, (m) => MinorNobleMaternalOnSelect(m), null));
+
+错误位置：第20行，134列起有多个CS1003和CS1056错误
+问题：字符串可能包含破坏字符，导致引号未闭合，后续中文标点符号跑到了字符串外面
+
+==========================================
+2. MinorNobleNodes.cs - 第23行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("minor_noble_too_dangerous", new TextObject("才名过盛，遭人忌惮"), new TextObject("你才名过盛，遭人忌惮。声望+1，魅力+2，与精英氏族关系-2，标记：被监视"), GetMinorNobleTooDangerousArgs, (m) => true, (m) => MinorNobleTooDangerousOnSelect(m), null));
+
+错误位置：第23行，139列起有多个CS1003和CS1056错误
+
+==========================================
+3. MinorNobleNodes.cs - 第47行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("minor_noble_retinue_noble", new TextObject("少量贵族随骑（精锐）"), new TextObject("你带来少量贵族随骑，精锐但数量少。初始兵力：贵族子弟×4，骑射手×6，食物×6，士气+3"), GetMinorNobleRetinueNobleArgs, (m) => true, (m) => MinorNobleRetinueNobleOnSelect(m), null));
+
+错误位置：第47行，137列起有多个CS1003和CS1056错误
+
+==========================================
+4. TradeProtectorNodes.cs - 第17行
+==========================================
+var menu = new NarrativeMenu("trade_protector_node1", "preset_origin_selection", "trade_protector_node2", new TextObject("你守护哪条商路"), new TextObject("选择你守护的商路,这会影响你的初始关系和通缉状态"), characters, GetTradeProtectorNode1CharacterArgs);
+
+错误位置：第17行，162列 - CS1010: 常量中有换行符
+问题：字符串可能在162列位置有破坏字符，导致字符串未闭合
+
+==========================================
+5. TradeProtectorNodes.cs - 第19-21行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_route_empire", new TextObject("通往帝国边境"), new TextObject("你守护通往帝国边境的商路。贸易+3，侦察+2，标记：在路上"), GetTradeRouteEmpireArgs, (m) => true, (m) => TradeRouteEmpireOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_route_desert", new TextObject("通往沙漠诸邦"), new TextObject("你守护通往沙漠诸邦的商路。贸易+3，侦察+2，标记：在路上"), GetTradeRouteDesertArgs, (m) => true, (m) => TradeRouteDesertOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_route_internal", new TextObject("汗国内部走廊"), new TextObject("你守护汗国内部走廊的商路。管理+3，魅力+2"), GetTradeRouteInternalArgs, (m) => true, (m) => TradeRouteInternalOnSelect(m), null));
+
+错误位置：第19行128列、243列；第20行128列、243列；第21行241列
+问题：多处字符串可能未闭合
+
+==========================================
+6. TradeProtectorNodes.cs - 第40-44行
+==========================================
+var menu = new NarrativeMenu("trade_protector_node2", "trade_protector_node1", "trade_protector_node3", new TextObject("你靠什么吃饭"), new TextObject("选择你的收入来源,这会影响你的初始金币和名声"), characters, GetTradeProtectorNode2CharacterArgs);
+
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_model_guard_fee", new TextObject("正规护路费"), new TextObject("你靠收取正规护路费为生。金钱+250，贸易+3，与商人关系+3，标记：合法生意"), GetTradeModelGuardFeeArgs, (m) => true, (m) => TradeModelGuardFeeOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_model_smuggling", new TextObject("夹带走私"), new TextObject("你靠夹带走私为生。金钱+350，贸易+3，狡诈+3，与商人关系-2，标记：灰色贸易"), GetTradeModelSmugglingArgs, (m) => true, (m) => TradeModelSmugglingOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("trade_model_monopoly", new TextObject("垄断一段商路"), new TextObject("你靠垄断一段商路为生。金钱+400，贸易+2，领导力+2，与商人关系-4，标记：争议"), GetTradeModelMonopolyArgs, (m) => true, (m) => TradeModelMonopolyOnSelect(m), null));
+
+错误位置：第40行159列、235列；第42-44行多处
+问题：字符串中包含破坏字符
+
+==========================================
+7. FreeCossackNodes.cs - 第17行
+==========================================
+var menu = new NarrativeMenu("free_cossack_node1", "preset_origin_selection", "free_cossack_node2", new TextObject("你为何来到草原"), new TextObject("选择你来到草原的原因,这会影响你的初始名声和关系"), characters, GetFreeCossackNode1CharacterArgs);
+
+错误位置：第17行，156列 - CS1010: 常量中有换行符
+问题：字符串可能在156列位置有破坏字符
+
+==========================================
+8. FreeCossackNodes.cs - 第19-20行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("cossack_arrival_fugitive", new TextObject("逃亡者"), new TextObject("你因犯事而逃亡。侦察+4，狡诈+2，标记：在路上"), GetCossackArrivalFugitiveArgs, (m) => true, (m) => CossackArrivalFugitiveOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("cossack_arrival_profit", new TextObject("逐利者"), new TextObject("你为逐利而来。贸易+4，金钱+200，标记：利益优先"), GetCossackArrivalProfitArgs, (m) => true, (m) => CossackArrivalProfitOnSelect(m), null));
+
+错误位置：第19行多处（139-156列）；第20行多处（130-156列）
+问题：字符串中包含破坏字符，导致后续字符被识别为代码语法
+
+==========================================
+9. RebelChiefNodes.cs - 第18行
+==========================================
+var menu = new NarrativeMenu("rebel_chief_node1", "preset_origin_selection", "rebel_chief_node2", new TextObject("Why Were You Declared a Rebel Chief"), new TextObject("Choose the reason you were declared a rebel chief, this will affect your initial relations and wanted status"), characters, GetRebelChiefNode1CharacterArgs);
+
+错误位置：第18行，154列 - CS1010: 常量中有换行符
+
+==========================================
+10. RebelChiefNodes.cs - 第20-21行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("rebel_reason_raid_caravan", new TextObject("Raided Caravan and Named"), new TextObject("You raided a caravan and were named. Money+250, Renown+1, Merchant relations-10, Khuzait relations-6, Mark: Suspected"), GetRebelReasonRaidCaravanArgs, (m) => true, (m) => RebelReasonRaidCaravanOnSelect(m), null));
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("rebel_reason_refuse_service", new TextObject("Refused Military Service/Refused Campaign"), new TextObject("You refused military service or refused to campaign. Khuzait relations-4, Mark: Suspected"), GetRebelReasonRefuseServiceArgs, (m) => true, (m) => RebelReasonRefuseServiceOnSelect(m), null));
+
+错误位置：第20行135列、266列；第21行多处（137-173列）
+问题：字符串可能未闭合
+
+==========================================
+11. KhansMercenaryNodes.cs - 第17行
+==========================================
+var menu = new NarrativeMenu("khans_mercenary_node1", "preset_origin_selection", "khans_mercenary_node2", new TextObject("你为何被可汗雇佣"), new TextObject("选择你被可汗雇佣的原因,这会影响你的初始声望和关系"), characters, GetKhansMercenaryNode1CharacterArgs);
+
+错误位置：第17行，162列 - CS1010: 常量中有换行符
+
+==========================================
+12. KhansMercenaryNodes.cs - 第19行
+==========================================
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("mercenary_reason_raider", new TextObject("你能打，也敢抢"), new TextObject("你能打，也敢抢。狡诈+4，领导力+2，与可汗关系+2，标记：雇佣兵心态"), GetMercenaryReasonRaiderArgs, (m) => true, (m) => MercenaryReasonRaiderOnSelect(m), null));
+
+错误位置：第19行多处（135-264列）
+问题：字符串中包含破坏字符
+
+==========================================
+13. PresetOriginSelectionMenu.cs - 第42, 47, 53, 58, 61, 62, 68, 71-74行
+==========================================
+需要检查所有包含 TextObject 的行，确保字符串正确闭合。
+
+具体错误位置：
+- 第42行，32列、63列 - CS1010, CS1003
+- 第47行，15列 - CS1026（应输入））
+- 第53行，32列、60列 - CS1010, CS1003
+- 第58行，15列 - CS1026
+- 第61行，40列 - CS1002（应输入;）、CS1513（应输入}）
+- 第62行，32列、41列 - CS1010, CS1003
+- 第68行，14列 - CS1002, CS1513
+- 第71-74行多处错误
+
+==========================================
+修复要求
+==========================================
+1. 检查每个 TextObject 构造函数的字符串参数是否正确闭合
+2. 查找并移除所有 Unicode 替换字符（U+FFFD）
+3. 确保所有括号正确匹配
+4. 确保所有字符串都有开始和结束的双引号
+5. 修复后，确保文件编码为 UTF-8 with BOM
+
+注意：问题代码中的中文标点符号（，。：）本身是合法的，但如果字符串未闭合导致它们跑到了字符串外面，就会报错。

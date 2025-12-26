@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+	<Name value="OriginSystemMod"/>
+	<Id value="OriginSystemMod"/>
+	<Version value="v1.0.0"/>
+	<ModuleCategory value="Singleplayer"/>
+	<Official value="false"/>
+	<DependedModules>
+		<DependedModule Id="Native"/>
+		<DependedModule Id="SandBoxCore"/>
+		<DependedModule Id="Sandbox"/>
+		<DependedModule Id="CustomBattle"/>
+		<DependedModule Id="StoryMode"/>
+		<DependedModule Id="Bannerlord.Harmony"/>
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="OriginSystemMod" />
+			<DLLName value="OriginSystemMod.dll" />
+			<SubModuleClassType value="OriginSystemMod.OriginSystemSubModule" />
+			<Tags>
+				<Tag key="DedicatedServerType" value="none" />
+			</Tags>
+		</SubModule>
+	</SubModules>
+	<Xmls>
+	</Xmls>
+</Module>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

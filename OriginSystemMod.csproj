@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OriginSystemMod</RootNamespace>
+    <AssemblyName>OriginSystemMod</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <OutputPath>bin\Win64_Shipping_Client\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Win64_Shipping_Client\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="TaleWorlds.Core">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.CampaignSystem">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Library">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.Library.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ScreenSystem">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.ScreenSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.ViewModelCollection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Localization">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.Localization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>D:\SteamLibrary\steamapps\workshop\content\261550\2859188632\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SubModule\OriginSystemSubModule.cs" />
+    <Compile Include="SubModule\OriginSystemHelper.cs" />
+    <Compile Include="SubModule\OriginSystemPatches.cs" />
+    <Compile Include="SubModule\OriginSystemCampaignBehavior.cs" />
+    <Compile Include="SubModule\OriginSystemDebugBehavior.cs" />
+    <Compile Include="SubModule\PresetOriginSystem.cs" />
+    <Compile Include="SubModule\NonPresetOriginSystem.cs" />
+    <Compile Include="SubModule\Util\OriginLog.cs" />
+    <Compile Include="SubModule\Util\ReflectionUtil.cs" />
+    <Compile Include="SubModule\Patches\AddParentsMenuPatch.cs" />
+    <Compile Include="SubModule\Patches\TrySwitchToNextMenuPatch.cs" />
+    <Compile Include="SubModule\Menus\OriginTypeSelectionMenu.cs" />
+    <Compile Include="SubModule\Menus\Preset\PresetOriginSelectionMenu.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\RebelChiefNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\WanderingPrinceNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\SlaveEscapeNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\MinorNobleNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\MigrantChiefNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\ArmyDeserterNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\TradeProtectorNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\KhansMercenaryNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\FreeCossackNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\OldGuardAvengerNodes.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\NonPresetCultureAnchorMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\NonPresetSocialOriginMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\NonPresetSkillBackgroundMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\NonPresetStartingConditionMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Roles\NonPresetNomadRoleMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Roles\NonPresetCraftsmanTradeMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Roles\NonPresetCaravanRoleMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Roles\NonPresetPeasantRoleMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Roles\NonPresetUrbanPoorRoleMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetMinorClanPositionMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetRefugeeBurdenMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetStartLocationTypeMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetValuableItemMenu.cs" />
+    <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetContactTypeMenu.cs" />
+    <Compile Include="SubModule\Routing\OriginMenuRouter.cs" />
+    <Compile Include="SubModule\Routing\OriginRoutes.Khuzait.cs" />
+    <Compile Include="SubModule\Routing\OriginRoutes.NonPreset.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
+
+
+
+
+
+
+
+
+
+
+
+
+

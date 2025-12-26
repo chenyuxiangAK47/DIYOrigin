@@ -1,0 +1,113 @@
+问题代码示例 - 供 ChatGPT 分析
+========================================
+
+问题：C# 编译错误 CS1010 (常量中有换行符) 和 CS1056 (意外的字符)
+
+根本原因：代码中包含中文标点符号，特别是"。","，","："等字符在 C# 字符串字面量中被识别为非法字符。
+
+========================================
+示例 1: ArmyDeserterNodes.cs (第17-19行)
+========================================
+
+问题代码（包含中文标点）：
+```csharp
+var menu = new NarrativeMenu("army_deserter_node1", "preset_origin_selection", "army_deserter_node2", 
+    new TextObject("你为何叛逃"), 
+    new TextObject("选择你从汗廷军叛逃的原因,这会影响你的初始关系和名声"), 
+    characters, GetArmyDeserterNode1CharacterArgs);
+
+menu.AddNarrativeMenuOption(new NarrativeMenuOption("deserter_reason_scapegoat", 
+    new TextObject("被当替罪羊"), 
+    new TextObject("你被当作替罪羊，蒙受冤案。与库塞特关系-4，战术+4，侦察+2，标记：被怀疑"),  // 这里有中文标点"，"和"。"和"："
+    GetDeserterReasonScapegoatArgs, (m) => true, (m) => DeserterReasonScapegoatOnSelect(m), null));
+```
+
+错误信息：
+- error CS1010: 常量中有换行符 (可能是由于中文字符编码问题导致)
+- error CS1056: 意外的字符"，"
+- error CS1056: 意外的字符"。"
+- error CS1056: 意外的字符"："
+
+========================================
+示例 2: KhansMercenaryNodes.cs (第17行)
+========================================
+
+问题代码：
+```csharp
+var menu = new NarrativeMenu("khans_mercenary_node1", "preset_origin_selection", "khans_mercenary_node2", 
+    new TextObject("你为何被可汗雇佣"), 
+    new TextObject("选择你被可汗雇佣的原因,这会影响你的初始关系和名声"),  // 可能包含中文标点
+    characters, GetKhansMercenaryNode1CharacterArgs);
+```
+
+错误信息：
+- error CS1010: 常量中有换行符 (第17行,第162列)
+
+========================================
+示例 3: PresetOriginSelectionMenu.cs (第42行)
+========================================
+
+我之前已经修复了这个文件，但如果仍有错误，可能是这样的代码：
+
+问题代码（修复前）：
+```csharp
+new TextObject("汗廷的旁支贵族,政治倾向,有少量贵族随从,社交魅力路线更强"),  // 中文逗号"，"
+```
+
+应该改为（使用英文逗号）：
+```csharp
+new TextObject("Minor noble of the Khanate, political inclination, has some noble followers, stronger social charm route"),
+```
+
+========================================
+批处理脚本分析
+========================================
+
+您的批处理脚本：
+```batch
+@echo off
+chcp 65001 >nul  # 设置代码页为UTF-8
+echo ========================================
+echo OriginSystemMod 编译脚本
+echo ========================================
+...
+dotnet build "OriginSystemMod.csproj" -c Release --no-incremental
+```
+
+分析：
+- `chcp 65001` 本身不是问题，它只是设置控制台编码为UTF-8，用于正确显示中文字符
+- 问题在于 C# 源文件中的字符串字面量包含中文标点符号（"。","，","："等）
+- 这些中文标点符号在某些编码情况下可能被 C# 编译器误认为是语法错误
+
+========================================
+解决方案
+========================================
+
+1. 将所有中文文本改为英文（推荐）
+2. 或者确保所有 C# 源文件使用 UTF-8 with BOM 编码保存
+3. 或者使用 Unicode 转义序列，例如：\u3002（句号）、\uFF0C（逗号）
+
+最佳实践：
+- 在 C# 字符串字面量中使用英文标点符号：. , : ; 等
+- 或者使用 TextObject 的本地化系统，将文本存储在外部资源文件中
+
+========================================
+需要修复的文件列表
+========================================
+
+根据错误日志，以下文件包含中文标点符号问题：
+1. PresetOriginSelectionMenu.cs (已部分修复)
+2. RebelChiefNodes.cs (已修复为英文)
+3. ArmyDeserterNodes.cs
+4. KhansMercenaryNodes.cs
+5. MigrantChiefNodes.cs
+6. TradeProtectorNodes.cs
+7. WanderingPrinceNodes.cs
+8. MinorNobleNodes.cs
+9. SlaveEscapeNodes.cs
+10. FreeCossackNodes.cs
+11. OldGuardAvengerNodes.cs
+12. 所有 NonPreset 菜单文件
+
+========================================
+

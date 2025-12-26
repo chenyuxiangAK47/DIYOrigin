@@ -1,0 +1,94 @@
+================================================================================
+如何查看日志定位"走的还是原版"问题
+================================================================================
+
+【方法1：使用自动分析脚本（推荐）】
+1. 打开 PowerShell
+2. 进入 OriginSystemMod 目录
+3. 运行: .\分析日志.ps1
+4. 脚本会自动：
+   - 查找最新日志文件
+   - 检查 6 个关键步骤
+   - 显示问题所在
+
+【方法2：手动查看日志】
+1. 找到日志文件位置（正确位置）：
+   %ProgramData%\Mount and Blade II Bannerlord\Logs\
+   或
+   %ProgramData%\Mount & Blade II Bannerlord\Logs\
+   
+   其他可能位置（备用）：
+   %USERPROFILE%\Documents\Mount and Blade II Bannerlord\Logs\
+   %LOCALAPPDATA%\Mount and Blade II Bannerlord\Logs\
+
+2. 打开最新的 .log 文件
+
+3. 搜索以下关键词（按顺序检查）：
+
+   【第一步：DLL 是否加载】
+   搜索: "[OriginSystem] DLL 加载信息"
+   或: "[OriginSystem] Harmony PatchAll 完成"
+   
+   如果找不到 → DLL 未加载，检查 SubModule.xml
+
+   【第二步：Patch 是否触发】
+   搜索: "Select: menu="
+   
+   如果找不到 → Patch 未触发，检查 Harmony Patch 注册
+
+   【第三步：PendingMenuSwitch 是否设置】
+   搜索: "PendingMenuSwitch="
+   
+   如果找不到或一直是 null → OnSelect 回调未设置
+
+   【第四步：路由是否工作】
+   搜索: "Switch: cur="
+   搜索: "[Route] 使用 PendingMenuSwitch:"
+   搜索: "ForceSwitch: target="
+   
+   如果找不到 → 路由未工作
+
+   【第五步：检查错误】
+   搜索: "[OS][ERR]" 或 "Exception" 或 "Error"
+   
+   如果有 → 查看错误详情
+
+================================================================================
+常见问题快速定位
+================================================================================
+
+【问题1：完全没有日志】
+→ DLL 未加载
+解决：检查 SubModule.xml 和 DLL 路径
+
+【问题2：有启动日志但没有 "Select: menu="】
+→ Patch 未触发
+解决：检查 Harmony Patch 注册和方法签名
+
+【问题3：有 "Select: menu=" 但没有 "Switch: cur="】
+→ TrySwitchToNextMenu 未触发
+解决：检查游戏版本，可能需要更新 Patch
+
+【问题4：有 "Switch: cur=" 但 resolved 是原版菜单】
+→ 路由逻辑未生效
+解决：检查 PendingMenuSwitch 是否被设置和使用
+
+【问题5：有 "ForceSwitch: target=" 但 found=False】
+→ 目标菜单未找到
+解决：检查菜单注册和 InputMenuId
+
+================================================================================
+需要提供的日志片段
+================================================================================
+
+如果问题仍然无法解决，请提供以下日志片段：
+
+1. DLL 加载日志（搜索 "[OriginSystem] DLL"）
+2. Patch 触发日志（搜索 "Select: menu="，提供最近 5 条）
+3. 路由日志（搜索 "Switch: cur="，提供最近 5 条）
+4. 错误日志（搜索 "[OS][ERR]" 或 "Exception"）
+
+把这些日志片段发给我，我可以帮你精确定位问题。
+
+================================================================================
+

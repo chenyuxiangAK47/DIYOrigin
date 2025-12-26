@@ -1,0 +1,107 @@
+﻿
+[12:12:56.524] [OriginSystem] BUILD=2025-12-20-001 
+[12:12:56.524] [OriginSystem] DLL Location: D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\Origin
+SystemMod\bin\Win64_Shipping_Client\OriginSystemMod.dll 
+[12:12:56.524] [OriginSystem] DLL Version: 0.0.0.0 
+[12:12:56.524] [OriginSystem] DLL LastWriteTime: 2025-12-24 12:04:05 
+[12:12:56.524] [OriginSystem] ===================================== 
+[12:12:56.551] [OriginSystem] Harmony PatchAll 閮ㄥ垎澶辫触: Patching exception in method static System.Reflection.MethodBase
+ OriginSystemMod.OnCharacterCreationFinalizedPatch::TargetMethod() 
+[12:12:56.551] [OriginSystem] 灏濊瘯鎵嬪姩娉ㄥ唽鍏朵粬 Patch... 
+[12:12:56.558] [OriginSystem] 鎵嬪姩娉ㄥ唽 Patch: OnNarrativeMenuOptionSelectedPatch 
+[12:12:56.562] [OriginSystem] 鎵嬪姩娉ㄥ唽 Patch: AddParentsMenuPatch 
+[12:12:56.568] [OriginSystem] 鎵嬪姩娉ㄥ唽 Patch: TrySwitchToNextMenuPatch 
+[12:12:56.568] [OriginSystem] OnSubModuleLoad 鎵ц瀹屾垚 
+[12:13:00.272] [OriginSystem] 鐘舵€佸凡閲嶇疆 
+[12:13:38.221] [OriginSystem] CampaignBehavior 宸叉坊鍔?
+[12:13:44.996] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[12:13:44.998] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[12:13:44.999] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[12:13:45.336] [OriginSystem] 寮€濮嬪簲鐢ㄩ潪棰勮鍑鸿韩 
+[12:13:45.338] [OriginSystem] 闈為璁惧嚭韬簲鐢ㄥ畬鎴?
+[12:13:45.338] [OriginSystem] 宸插簲鐢ㄩ潪棰勮鍑鸿韩 
+[12:13:49.923] [OS] AddParentsMenu Postfix 琚皟鐢?
+[12:13:49.923] [OS] 宸插垹闄ゅ師鐖舵瘝鑿滃崟 
+[12:13:49.924] [OS] 宸叉坊鍑鸿韩绫诲瀷閫夋嫨鑿滃崟 
+[12:13:49.924] [OS] 宸叉坊鍔犻璁惧嚭韬€夋嫨鑿滃崟 
+[12:13:49.926] [OS] 宸叉坊鑽夊師鍙涢厠'4涓妭鐐硅彍 
+[12:13:49.928] [OS] 宸叉坊姹楀环鏃佹敮璐垫棌'4涓妭鐐硅彍 
+[12:13:49.929] [OS] 宸叉坊瑗胯縼閮ㄦ棌棣栭'4涓妭鐐硅彍 
+[12:13:49.930] [OS] 宸叉坊姹楀环鍐涘彌閫?涓妭鐐硅彍 
+[12:13:49.931] [OS] 宸叉坊鑽夊師鍟嗚矾瀹堟姢4涓妭鐐硅彍 
+[12:13:49.933] [OS] 宸叉坊涓滄柟杩佸緳鐜嬫棌'4涓妭鐐硅彍 
+[12:13:49.934] [OS] 宸叉坊鍙睏鐨勯泧浣ｆ垬4涓妭鐐硅彍 
+[12:13:49.936] [OS] 宸叉坊鎴樺ゴ閫冧骸'5涓妭鐐硅彍 
+[12:13:49.936] [OS] 宸叉坊鍔犺崏鍘熻嚜鐢?涓妭鐐硅彍 
+[12:13:49.938] [OS] 宸叉坊涓滄柟鏃ч儴澶嶄粐4涓妭鐐硅彍 
+[12:13:49.938] [OS] 宸叉坊闈為鏂囧寲閿氱偣鑿滃崟 
+[12:13:49.939] [OS] 宸叉坊鍔犻潪棰勭ぞ浼氬嚭韬彍鍗?
+[12:13:49.939] [OS] 宸叉坊鍔犻潪棰勬父鐗ц惀鍦拌鑹茶彍鍗?
+[12:13:49.940] [OS] 宸叉坊鍔犻潪棰勬墜宸ヤ笟鑰呮墜鑿滃崟 
+[12:13:49.940] [OS] 宸叉坊闈為鍟嗛槦瑙掕壊鑿滃崟 
+[12:13:49.940] [OS] 宸叉坊鍔犻潪棰勮灏忔皬鏃忎綅缃彍鍗?
+[12:13:49.941] [OS] 宸叉坊鍔犻潪棰勮娴佹氮闅炬皯璐熸媴鑿滃崟 
+[12:13:49.941] [OS] 宸叉坊鍔犻潪棰勮璧峰浣嶇疆绫诲瀷鑿滃崟 
+[12:13:49.942] [OS] 宸叉坊鍔犻潪棰勮璐甸噸鐗╁搧鑿滃崟 
+[12:13:49.942] [OS] 宸叉坊鍔犻潪棰勮鑱旂郴浜虹被鍨嬭彍鍗?
+[12:13:49.943] [OS] 宸叉坊鍔犻潪棰勫啘鏉戝钩姘戣鑹茶彍鍗?
+[12:13:49.943] [OS] 宸叉坊鍔犻潪棰勫煄闀囪传姘戣鑹茶彍鍗?
+[12:13:49.944] [OS] 宸叉坊闈為鎶€鑳芥潵鑿滃崟 
+[12:13:49.945] [OS] 宸叉坊闈為褰撳墠鐘惰彍鍗?
+[12:13:49.945] [OS] 宸查噸鏂版坊鍔犵埗姣嶈彍鍗?InputMenuId = origin_type_selection) 
+[12:13:59.236] [OS] Select: menu=origin_type_selection option=non_preset_origin_option hasSelectedKey=False 
+[12:13:59.236] [OS] Select: menu=origin_type_selection option=non_preset_origin_option hasSelectedKey=False 
+[12:13:59.237] [OriginSystem] 鐢ㄦ埛閫夋嫨浜嗛潪棰勮鍑鸿韩 (浠呮爣璁?涓嶅垏鑿滃崟) 
+[12:13:59.237] [OS] ========== OnNarrativeMenuOptionSelected Postfix ========== 
+[12:13:59.237] [OS] Postfix: 褰撳墠鑿滃崟 = origin_type_selection 
+[12:13:59.237] [OS] Postfix:   InputMenuId = start 
+[12:13:59.237] [OS] Postfix:   OutputMenuId = preset_origin_selection 
+[12:13:59.237] [OS] Postfix: 閫夐」 = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:13:59.237] [OS] Postfix: SelectedOptions 鍖呭惈褰撳墠鑿滃崟 = True 
+[12:13:59.237] [OS] Postfix: SelectedOption = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:13:59.237] [OS] ========== OnNarrativeMenuOptionSelected Postfix 缁撴潫 ========== 
+[12:13:59.237] [OS] Postfix: PendingMenuSwitch=non_preset_culture_anchor (淇濈暀缁?TrySwitchToNextMenu 浣跨敤) 
+[12:13:59.237] [OS] ========== OnNarrativeMenuOptionSelected Postfix ========== 
+[12:13:59.237] [OS] Postfix: 褰撳墠鑿滃崟 = origin_type_selection 
+[12:13:59.237] [OS] Postfix:   InputMenuId = start 
+[12:13:59.237] [OS] Postfix:   OutputMenuId = preset_origin_selection 
+[12:13:59.237] [OS] Postfix: 閫夐」 = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:13:59.237] [OS] Postfix: SelectedOptions 鍖呭惈褰撳墠鑿滃崟 = True 
+[12:13:59.237] [OS] Postfix: SelectedOption = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:13:59.237] [OS] ========== OnNarrativeMenuOptionSelected Postfix 缁撴潫 ========== 
+[12:13:59.237] [OS] Postfix: PendingMenuSwitch=non_preset_culture_anchor (淇濈暀缁?TrySwitchToNextMenu 浣跨敤) 
+[12:13:59.896] [OS] Candidates for input=origin_type_selection: [0]=preset_origin_selection [1]=non_preset_culture_anch
+or [2]=non_preset_social_origin [3]=narrative_parent_menu 
+[12:13:59.896] [OS] [Route] 浣跨敤 PendingMenuSwitch: non_preset_culture_anchor (cur=origin_type_selection opt=non_preset_
+origin_option) 
+[12:13:59.896] [OS] Switch: cur=origin_type_selection opt=non_preset_origin_option resolved=non_preset_culture_anchor 
+[12:13:59.897] [OS] CurrentMenu backing field candidate = <CurrentMenu>k__BackingField (绫诲瀷: NarrativeMenu) 
+[12:13:59.897] [OS] 鎴愬姛閫氳繃瀛楁 <CurrentMenu>k__BackingField 璁剧疆 CurrentMenu 
+[12:13:59.897] [OS] 鎵惧埌 1 涓?ModifyMenuCharacters 鏂规硶: 
+[12:13:59.897] [OS]   - ModifyMenuCharacters() 
+[12:13:59.897] [OS] 鎴愬姛璋冪敤 ModifyMenuCharacters() 
+[12:13:59.897] [OS] ForceSwitch: target=non_preset_culture_anchor found=True setCurrent=True modifyCalled=True 
+[12:14:05.298] [OS] Select: menu=origin_type_selection option=non_preset_origin_option hasSelectedKey=True 
+[12:14:05.298] [OS] Select: menu=origin_type_selection option=non_preset_origin_option hasSelectedKey=True 
+[12:14:05.298] [OriginSystem] 鐢ㄦ埛閫夋嫨浜嗛潪棰勮鍑鸿韩 (浠呮爣璁?涓嶅垏鑿滃崟) 
+[12:14:05.298] [OS] ========== OnNarrativeMenuOptionSelected Postfix ========== 
+[12:14:05.298] [OS] Postfix: 褰撳墠鑿滃崟 = origin_type_selection 
+[12:14:05.298] [OS] Postfix:   InputMenuId = start 
+[12:14:05.298] [OS] Postfix:   OutputMenuId = preset_origin_selection 
+[12:14:05.298] [OS] Postfix: 閫夐」 = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:14:05.298] [OS] Postfix: SelectedOptions 鍖呭惈褰撳墠鑿滃崟 = True 
+[12:14:05.298] [OS] Postfix: SelectedOption = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:14:05.298] [OS] ========== OnNarrativeMenuOptionSelected Postfix 缁撴潫 ========== 
+[12:14:05.298] [OS] Postfix: PendingMenuSwitch=non_preset_culture_anchor (淇濈暀缁?TrySwitchToNextMenu 浣跨敤) 
+[12:14:05.298] [OS] ========== OnNarrativeMenuOptionSelected Postfix ========== 
+[12:14:05.298] [OS] Postfix: 褰撳墠鑿滃崟 = origin_type_selection 
+[12:14:05.298] [OS] Postfix:   InputMenuId = start 
+[12:14:05.298] [OS] Postfix:   OutputMenuId = preset_origin_selection 
+[12:14:05.298] [OS] Postfix: 閫夐」 = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:14:05.298] [OS] Postfix: SelectedOptions 鍖呭惈褰撳墠鑿滃崟 = True 
+[12:14:05.298] [OS] Postfix: SelectedOption = non_preset_origin_option (闈為璁惧嚭韬? 
+[12:14:05.298] [OS] ========== OnNarrativeMenuOptionSelected Postfix 缁撴潫 ========== 
+[12:14:05.298] [OS] Postfix: PendingMenuSwitch=non_preset_culture_anchor (淇濈暀缁?TrySwitchToNextMenu 浣跨敤) 
+[12:14:09.170] [OriginSystem] 鐘舵€佸凡閲嶇疆 
+
+

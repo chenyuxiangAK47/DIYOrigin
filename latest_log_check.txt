@@ -1,0 +1,48 @@
+﻿
+[11:54:19.048] Loading xml file: $BASE/Modules/OriginSystemMod/SubModule.xml.
+[11:54:19.049] Loading xml file: $BASE/Modules/OriginSystemMod/SubModule.xml.
+[11:54:19.243] Command Args: /singleplayer _MODULES_*Bannerlord.Harmony*Bannerlord.UIExtenderEx*Native*SandBoxCore*Birt
+hAndDeath*Sandbox*StoryMode*CustomBattle*NavalDLC*OriginSystemMod*_MODULES_
+[11:54:23.188] LoadWithFullPath  subModulePath = ..\..\Modules\OriginSystemMod/SubModule.xml 
+[11:54:23.292] Loading assembly: D:\SteamLibrary\steamapps\workshop\content\261550\2859188632\bin\Win64_Shipping_Client
+\0Harmony.dll
+[11:54:23.295] Loading assembly: D:\SteamLibrary\steamapps\workshop\content\261550\2859188632\bin\Win64_Shipping_Client
+\Bannerlord.Harmony.dll
+[11:58:33.278] Loading assembly: ..\..\Modules\OriginSystemMod\bin\Win64_Shipping_Client\OriginSystemMod.dll
+[11:58:34.315] [OriginSystem] ========== DLL 鍔犺浇淇℃伅 ========== 
+[11:58:34.315] [OriginSystem] BUILD=2025-12-20-001 
+[11:58:34.315] [OriginSystem] DLL Location: D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\Origin
+SystemMod\bin\Win64_Shipping_Client\OriginSystemMod.dll 
+[11:58:34.315] [OriginSystem] DLL Version: 0.0.0.0 
+[11:58:34.315] [OriginSystem] DLL LastWriteTime: 2025-12-24 11:51:51 
+[11:58:34.315] [OriginSystem] ===================================== 
+[11:58:34.340] [OS] [SlaveEscape][Patch] TargetType 鎵惧埌: TaleWorlds.CampaignSystem.CharacterCreationContent.CharacterCr
+eationContent 
+[11:58:34.342] [OS][WARN] [SlaveEscape][Patch] OnCharacterCreationFinalized 鏂规硶鏈壘鍒帮紝灏濊瘯 FinalizeCharacterCreation 
+[11:58:34.342] [OS][WARN] [SlaveEscape][Patch] TargetMethod 杩斿洖 null锛歄nCharacterCreationFinalized 鍜?FinalizeCharacterCr
+eation 閮戒笉瀛樺湪 
+[11:58:34.343] [OriginSystem] OnSubModuleLoad 澶辫触: Patching exception in method static System.Reflection.MethodBase Ori
+ginSystemMod.OnCharacterCreationFinalizedPatch::TargetMethod() 
+[11:58:34.346] [OriginSystem] StackTrace:    at HarmonyLib.PatchClassProcessor.ReportException(Exception exception, Met
+hodBase original)
+   at HarmonyLib.PatchClassProcessor.Patch()
+   at HarmonyLib.CollectionExtensions.Do[T](IEnumerable`1 sequence, Action`1 action)
+   at HarmonyLib.Harmony.PatchAll(Assembly assembly)
+   at OriginSystemMod.OriginSystemSubModule.OnSubModuleLoad() 
+[11:58:37.935] [OriginSystem] 鐘舵€佸凡閲嶇疆 
+[11:58:44.823] [OriginSystem] CampaignBehavior 宸叉坊鍔?
+[11:58:48.746] Granite Error in Graphine::Granite::Internal::ContextImplementation::DestroyCache: The specified GPU cac
+he is not part of this context
+[11:58:48.746] Granite Error in Graphine::Granite::Internal::ContextImplementation::DestroyCache: The specified GPU cac
+he is not part of this context
+[11:58:48.746] Granite Error in Graphine::Granite::Internal::ContextImplementation::DestroyCache: The specified GPU cac
+he is not part of this context
+[11:58:51.636] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[11:58:51.637] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[11:58:51.637] Unofficial modules are used: Bannerlord.Harmony;Bannerlord.UIExtenderEx;OriginSystemMod 
+[11:58:51.962] [OriginSystem] 寮€濮嬪簲鐢ㄩ潪棰勮鍑鸿韩 
+[11:58:51.963] [OriginSystem] 闈為璁惧嚭韬簲鐢ㄥ畬鎴?
+[11:58:51.963] [OriginSystem] 宸插簲鐢ㄩ潪棰勮鍑鸿韩 
+[11:59:05.837] [OriginSystem] 鐘舵€佸凡閲嶇疆 
+
+

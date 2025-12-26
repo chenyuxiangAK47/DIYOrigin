@@ -1,0 +1,241 @@
+================================================================================
+OriginSystemMod 失败原因排查分析
+================================================================================
+生成时间: 2025-12-20
+分析目标: 查找为什么逃奴出生位置设置和菜单路由仍然失败
+
+================================================================================
+一、可能的问题点（按优先级排序）
+================================================================================
+
+【问题1】日志文件未找到或未生成
+- 可能原因：
+  * Bannerlord 的日志输出到 Documents\Mount and Blade II Bannerlord\Logs
+  * 但该目录可能不存在或路径不同
+  * Debug.Print 的输出可能被重定向或未启用
+- 验证方法：
+  * 检查游戏是否真的运行了（DLL 是否被加载）
+  * 检查 Harmony Patch 是否成功注册
+  * 检查 OriginSystemSubModule.OnSubModuleLoad 是否执行
+
+【问题2】Harmony Patch 未成功注册
+- 可能原因：
+  * OnCharacterCreationFinalizedPatch.TargetMethod() 返回 null
+  * Harmony.PatchAll 失败但未抛出异常
+  * DLL 未正确加载到游戏进程
+- 验证方法：
+  * 检查游戏启动时是否有 "[OriginSystem] Harmony PatchAll 完成" 日志
+  * 检查是否有 "[SlaveEscape][Patch] TargetType 找到" 日志
+  * 检查是否有 "[SlaveEscape][Patch] TargetMethod 找到" 日志
+
+【问题3】PendingMenuSwitch 被提前清空
+- 可能原因：
+  * ResetState 在角色创建过程中被调用
+  * OnNarrativeMenuOptionSelected Postfix 仍然在清空（虽然已修复）
+  * 其他代码路径清空了 PendingMenuSwitch
+- 验证方法：
+  * 检查是否有 "[ResetState] 清空了 PendingStartDirection" 警告
+  * 检查是否有 "Postfix: PendingMenuSwitch=..." 日志
+  * 检查是否有 "[Route] 使用 PendingMenuSwitch" 日志
+
+【问题4】ResolveNextMenuId 未使用 PendingMenuSwitch
+- 可能原因：
+  * 代码修复未生效（DLL 未重新编译）
+  * ResolveNextMenuId 被其他代码路径绕过
+- 验证方法：
+  * 检查是否有 "[Route] 使用 PendingMenuSwitch" 日志
+  * 检查 Switch 日志中的 resolved 值是否正确
+
+【问题5】ApplySlaveEscapeNode5 中直接调用失败
+- 可能原因：
+  * MobileParty.MainParty 或 Campaign.Current 为空
+  * SetSlaveEscapeStartingLocation 返回 false
+  * Position2D setter 调用失败
+- 验证方法：
+  * 检查是否有 "[SlaveEscape][Apply] 在 ApplySlaveEscapeNode5 中直接调用" 日志
+  * 检查是否有 "[SlaveEscape][Teleport] success=True/False" 日志
+  * 检查是否有 "Position2D setter exists" 日志
+
+【问题6】Finalize Patch 未触发
+- 可能原因：
+  * OnCharacterCreationFinalizedPatch.TargetMethod() 返回 null
+  * Patch 注册成功但方法签名不匹配
+  * 游戏版本更新导致方法名/签名变化
+- 验证方法：
+  * 检查是否有 "[SlaveEscape][Finalize] OnCharacterCreationFinalized Postfix called" 日志
+  * 检查是否有 "[SlaveEscape][Patch] TargetMethod 找到" 日志
+
+================================================================================
+二、必须出现的日志序列（如果功能正常）
+================================================================================
+
+【阶段1：游戏启动】
+[OriginSystem] ========== DLL 加载信息 ==========
+[OriginSystem] BUILD=2025-12-20-001
+[OriginSystem] Harmony PatchAll 完成
+[OriginSystem] OnSubModuleLoad 执行完成
+[SlaveEscape][Patch] TargetType 找到: SandBox.CharacterCreationContent.SandboxCharacterCreationContent
+[SlaveEscape][Patch] TargetMethod 找到: OnCharacterCreationFinalized in ...
+
+【阶段2：选择预设出身】
+[OS] Select: menu=origin_type_selection option=preset_origin_option hasSelectedKey=False
+[OS] [OriginSystem] 用户选择了预设出身 (仅标记,不切菜单)
+[OS] Postfix: PendingMenuSwitch=preset_origin_selection (保留给 TrySwitchToNextMenu 使用)
+[OS] Switch: cur=origin_type_selection opt=preset_origin_option resolved=preset_origin_selection
+[OS] [Route] 使用 PendingMenuSwitch: preset_origin_selection (cur=origin_type_selection opt=preset_origin_option)
+[OS] ForceSwitch: target=preset_origin_selection found=True setCurrent=True modifyCalled=True
+
+【阶段3：选择战奴逃亡】
+[OS] Select: menu=preset_origin_selection option=preset_slave_escape_option hasSelectedKey=False
+[OS] [Route] 使用 PendingMenuSwitch: preset_slave_escape (cur=preset_origin_selection opt=preset_slave_escape_option)
+[OS] Switch: cur=preset_origin_selection opt=preset_slave_escape_option resolved=preset_slave_escape
+[OS] ForceSwitch: target=preset_slave_escape found=True setCurrent=True modifyCalled=True
+
+【阶段4：选择沙漠深处（Node5）】
+[OS] 用户选择战奴逃亡-Node5-留沙
+[OS] [SlaveEscape][Node5] 已保存期望出生位置: direction=desert
+[OS] [SlaveEscape][Apply] direction=desert campaign=True mainHero=True mainParty=True pos=(...)
+[OS] [SlaveEscape][Apply] 在 ApplySlaveEscapeNode5 中直接调用 SetSlaveEscapeStartingLocation: desert
+[OS] [SlaveEscape][Teleport] when=延迟执行 before=(...) after=(...) success=True/False
+[OS] [SlaveEscape][Teleport] Position2D setter exists=True isPublic=False
+[OS] [SlaveEscape][Teleport] 使用 setMethod.Invoke 设置位置: success=True
+
+【阶段5：角色创建完成（如果 Patch 触发）】
+[OS] [SlaveEscape][Finalize] OnCharacterCreationFinalized Postfix called
+[OS] [SlaveEscape][Finalize] 开始设置出生位置: direction=desert
+[OS] [SlaveEscape][Teleport] when=OnCharacterCreationFinalized before=(...) after=(...) success=True/False
+
+================================================================================
+三、诊断步骤
+================================================================================
+
+步骤1：确认 DLL 是否被加载
+- 检查游戏启动日志中是否有 "[OriginSystem] DLL 加载信息"
+- 如果没有，说明 DLL 未被加载，检查：
+  * SubModule.xml 中的 SubModuleClass 是否正确
+  * DLL 是否在正确的目录（bin/Win64_Shipping_Client/）
+  * DLL 是否与游戏版本兼容
+
+步骤2：确认 Harmony Patch 是否注册
+- 检查是否有 "[OriginSystem] Harmony PatchAll 完成" 日志
+- 检查是否有 "[SlaveEscape][Patch] TargetType 找到" 日志
+- 如果没有，说明 Patch 注册失败，检查：
+  * Harmony 库是否正确引用
+  * Patch 类是否正确标记 [HarmonyPatch]
+  * TargetMethod 是否返回 null
+
+步骤3：确认菜单路由是否工作
+- 检查是否有 "[Route] 使用 PendingMenuSwitch" 日志
+- 检查是否有 "Switch: cur=... opt=... resolved=..." 日志
+- 如果没有，说明路由未工作，检查：
+  * PendingMenuSwitch 是否被提前清空
+  * ResolveNextMenuId 是否被调用
+  * TrySwitchToNextMenuPatch 是否被触发
+
+步骤4：确认出生位置设置是否执行
+- 检查是否有 "[SlaveEscape][Apply] 在 ApplySlaveEscapeNode5 中直接调用" 日志
+- 检查是否有 "[SlaveEscape][Teleport] success=True" 日志
+- 如果没有，说明设置未执行，检查：
+  * ApplySlaveEscapeNode5 是否被调用
+  * MobileParty.MainParty 和 Campaign.Current 是否为空
+  * Position2D setter 是否可用
+
+步骤5：确认 ResetState 是否清空了状态
+- 检查是否有 "[ResetState] 清空了 PendingStartDirection" 警告
+- 如果有，说明 ResetState 在角色创建过程中被调用，需要：
+  * 检查 OnBeforeInitialModuleScreenSetAsRoot 的调用时机
+  * 延迟 ResetState 的调用时机
+
+================================================================================
+四、常见失败模式
+================================================================================
+
+【失败模式1：完全没有日志】
+- 症状：游戏运行但没有任何 OriginSystem 相关日志
+- 原因：DLL 未被加载或 Harmony Patch 未注册
+- 解决：检查 SubModule.xml 和 DLL 路径
+
+【失败模式2：有启动日志但没有路由日志】
+- 症状：有 "[OriginSystem] Harmony PatchAll 完成" 但没有 "[Route] 使用 PendingMenuSwitch"
+- 原因：PendingMenuSwitch 被提前清空或 ResolveNextMenuId 未使用它
+- 解决：检查 OnNarrativeMenuOptionSelected Postfix 和 ResetState
+
+【失败模式3：有路由日志但没有出生位置日志】
+- 症状：有 "[Route] 使用 PendingMenuSwitch" 但没有 "[SlaveEscape][Apply]"
+- 原因：ApplySlaveEscapeNode5 未被调用或条件不满足
+- 解决：检查 ApplyPresetOrigin 的调用链
+
+【失败模式4：有出生位置日志但 success=False】
+- 症状：有 "[SlaveEscape][Teleport]" 但 success=False
+- 原因：Position2D setter 不可用或 settlement 未找到
+- 解决：检查 Position2D setter 的反射调用和 settlement 查找逻辑
+
+================================================================================
+五、下一步行动
+================================================================================
+
+1. 运行游戏并选择逃奴出身 → 选择"沙漠深处"
+2. 查找日志文件（可能在以下位置）：
+   * %USERPROFILE%\Documents\Mount and Blade II Bannerlord\Logs\
+   * %USERPROFILE%\Documents\Mount & Blade II Bannerlord\Logs\
+   * %LOCALAPPDATA%\Mount and Blade II Bannerlord\Logs\
+   * D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\crashes\logs\
+3. 在日志中搜索以下关键词：
+   * "OriginSystem"
+   * "SlaveEscape"
+   * "Route"
+   * "Switch"
+   * "PendingMenuSwitch"
+   * "ResetState"
+   * "Finalize"
+   * "Teleport"
+   * "Error"
+   * "Exception"
+4. 根据日志内容，对照上面的"必须出现的日志序列"，找出缺失的环节
+5. 根据"常见失败模式"，定位具体问题
+
+================================================================================
+六、如果日志文件找不到
+================================================================================
+
+如果完全找不到日志文件，可能的原因：
+1. 游戏未启用日志输出（需要检查游戏设置）
+2. 日志输出到其他位置（需要检查游戏配置文件）
+3. DLL 未被加载（需要检查 SubModule.xml 和 DLL 路径）
+4. 游戏崩溃导致日志未写入（需要检查崩溃报告）
+
+建议：
+- 检查游戏安装目录下是否有 rgl_log.txt 或其他日志文件
+- 检查 Windows 事件查看器中的应用程序日志
+- 使用 dnSpy 附加到游戏进程，查看运行时状态
+- 在代码中添加文件日志输出（类似 QuickStartLogger）
+
+================================================================================
+生成完成
+================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
