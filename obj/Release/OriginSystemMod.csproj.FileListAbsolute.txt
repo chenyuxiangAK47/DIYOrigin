@@ -1,6 +1,6 @@
-D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.csproj.AssemblyReference.cache
-D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.csproj.CoreCompileInputs.cache
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\bin\Win64_Shipping_Client\OriginSystemMod.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\bin\Win64_Shipping_Client\OriginSystemMod.pdb
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.csproj.AssemblyReference.cache
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.csproj.CoreCompileInputs.cache
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod\obj\Release\OriginSystemMod.pdb

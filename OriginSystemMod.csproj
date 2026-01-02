@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="SubModule\OriginSystemSubModule.cs" />
     <Compile Include="SubModule\OriginSystemHelper.cs" />
+    <Compile Include="SubModule\EKKeys.cs" />
     <Compile Include="SubModule\OriginSystemPatches.cs" />
     <Compile Include="SubModule\OriginSystemCampaignBehavior.cs" />
     <Compile Include="SubModule\OriginSystemDebugBehavior.cs" />
@@ -87,6 +88,17 @@
     <Compile Include="SubModule\Menus\Preset\Nodes\KhansMercenaryNodes.cs" />
     <Compile Include="SubModule\Menus\Preset\Nodes\FreeCossackNodes.cs" />
     <Compile Include="SubModule\Menus\Preset\Nodes\OldGuardAvengerNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\ExpeditionKnightNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\BankruptBanneretNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\CrossbowGuildNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\MarchWardenNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\BlackPathCaptainNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\TourneyChampionNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\OrderSquireNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\SellswordLieutenantNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\TaxBailiffEnforcerNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\FreeMilitiaLeaderNodes.cs" />
+    <Compile Include="SubModule\Menus\Preset\Nodes\DegradedRogueKnightNodes.cs" />
     <Compile Include="SubModule\Menus\NonPreset\NonPresetCultureAnchorMenu.cs" />
     <Compile Include="SubModule\Menus\NonPreset\NonPresetSocialOriginMenu.cs" />
     <Compile Include="SubModule\Menus\NonPreset\NonPresetSkillBackgroundMenu.cs" />
@@ -103,20 +115,11 @@
     <Compile Include="SubModule\Menus\NonPreset\Optional\NonPresetContactTypeMenu.cs" />
     <Compile Include="SubModule\Routing\OriginMenuRouter.cs" />
     <Compile Include="SubModule\Routing\OriginRoutes.Khuzait.cs" />
+    <Compile Include="SubModule\Routing\OriginRoutes.Vlandia.cs" />
     <Compile Include="SubModule\Routing\OriginRoutes.NonPreset.cs" />
+    <Compile Include="SubModule\Quests\ExpeditionKnightQuest.cs" />
+    <Compile Include="SubModule\VlandiaOriginSystem.cs" />
+    <Compile Include="SubModule\VlandiaOriginSystem.LuxuryEquipment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
-
-
-
-
-
-
-
-
-
-
-
-
-

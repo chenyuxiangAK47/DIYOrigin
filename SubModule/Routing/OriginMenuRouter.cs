@@ -41,7 +41,25 @@ namespace OriginSystemMod
             // ====== B) 预设出身选择：按选项分流到不同 Node1 ======
             if (curMenuId == "preset_origin_selection")
             {
-                return KhuzaitRoutes.GetPresetOriginNode1(optId);
+                // 根据preset ID判断是哪个文化的
+                if (optId != null)
+                {
+                    if (optId.StartsWith("vlandia_"))
+                    {
+                        return VlandiaRoutes.GetPresetOriginNode1(optId);
+                    }
+                    else if (optId.StartsWith("khuzait_"))
+                    {
+                        return KhuzaitRoutes.GetPresetOriginNode1(optId);
+                    }
+                    else
+                    {
+                        // 其他文化暂时返回null，后续可以添加
+                        OriginLog.Warning($"[Route] 未知的preset origin ID: {optId}");
+                        return null;
+                    }
+                }
+                return null;
             }
             
             // ====== C) 非预设社会出身：根据选项分流到不同的风味节点 ======
@@ -105,10 +123,17 @@ namespace OriginSystemMod
             }
             
             // ====== G) 预设出身的节点流转 ======
-            var presetNext = KhuzaitRoutes.GetPresetNodeTransition(curMenuId, optId);
-            if (presetNext != null)
+            // 先尝试瓦兰迪亚路由
+            var vlandiaNext = VlandiaRoutes.GetPresetNodeTransition(curMenuId, optId);
+            if (vlandiaNext != null)
             {
-                return presetNext;
+                return vlandiaNext;
+            }
+            // 再尝试库塞特路由
+            var khuzaitNext = KhuzaitRoutes.GetPresetNodeTransition(curMenuId, optId);
+            if (khuzaitNext != null)
+            {
+                return khuzaitNext;
             }
             
             // 其它菜单走原版逻辑
@@ -149,9 +174,3 @@ namespace OriginSystemMod
         }
     }
 }
-
-
-
-
-
-

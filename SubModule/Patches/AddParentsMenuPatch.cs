@@ -154,6 +154,128 @@ namespace OriginSystemMod
                     characterCreationManager.AddNewMenu(oldGuardAvengerNode4Menu);
                     OriginLog.Info("已添东方旧部复仇4个节点菜");
 
+                    // 瓦兰迪亚预设出身节点菜单
+                    // 远征的骑士(4个节点)
+                    var expeditionKnightNode1Menu = CreateExpeditionKnightNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(expeditionKnightNode1Menu);
+                    var expeditionKnightNode2Menu = CreateExpeditionKnightNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(expeditionKnightNode2Menu);
+                    var expeditionKnightNode3Menu = CreateExpeditionKnightNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(expeditionKnightNode3Menu);
+                    var expeditionKnightNode4Menu = CreateExpeditionKnightNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(expeditionKnightNode4Menu);
+                    OriginLog.Info("已添加远征的骑士4个节点菜单");
+
+                    // 破产的旗主继承人(4个节点)
+                    var bankruptBanneretNode1Menu = CreateBankruptBanneretNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(bankruptBanneretNode1Menu);
+                    var bankruptBanneretNode2Menu = CreateBankruptBanneretNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(bankruptBanneretNode2Menu);
+                    var bankruptBanneretNode3Menu = CreateBankruptBanneretNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(bankruptBanneretNode3Menu);
+                    var bankruptBanneretNode4Menu = CreateBankruptBanneretNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(bankruptBanneretNode4Menu);
+                    OriginLog.Info("已添加破产的旗主继承人4个节点菜单");
+
+                    // 城镇弩匠行会的执旗人(4个节点)
+                    var crossbowGuildNode1Menu = CreateCrossbowGuildNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(crossbowGuildNode1Menu);
+                    var crossbowGuildNode2Menu = CreateCrossbowGuildNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(crossbowGuildNode2Menu);
+                    var crossbowGuildNode3Menu = CreateCrossbowGuildNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(crossbowGuildNode3Menu);
+                    var crossbowGuildNode4Menu = CreateCrossbowGuildNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(crossbowGuildNode4Menu);
+                    OriginLog.Info("已添加城镇弩匠行会的执旗人4个节点菜单");
+
+                    // 边境行省的守境骑长(4个节点)
+                    var marchWardenNode1Menu = CreateMarchWardenNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(marchWardenNode1Menu);
+                    var marchWardenNode2Menu = CreateMarchWardenNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(marchWardenNode2Menu);
+                    var marchWardenNode3Menu = CreateMarchWardenNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(marchWardenNode3Menu);
+                    var marchWardenNode4Menu = CreateMarchWardenNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(marchWardenNode4Menu);
+                    OriginLog.Info("已添加边境行省的守境骑长4个节点菜单");
+
+                    // 黑旗匪首(4个节点)
+                    var blackPathCaptainNode1Menu = CreateBlackPathCaptainNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(blackPathCaptainNode1Menu);
+                    var blackPathCaptainNode2Menu = CreateBlackPathCaptainNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(blackPathCaptainNode2Menu);
+                    var blackPathCaptainNode3Menu = CreateBlackPathCaptainNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(blackPathCaptainNode3Menu);
+                    var blackPathCaptainNode4Menu = CreateBlackPathCaptainNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(blackPathCaptainNode4Menu);
+                    OriginLog.Info("已添加黑旗匪首4个节点菜单");
+
+                    // 比武场的落魄冠军(4个节点)
+                    var tourneyChampionNode1Menu = CreateTourneyChampionNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(tourneyChampionNode1Menu);
+                    var tourneyChampionNode2Menu = CreateTourneyChampionNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(tourneyChampionNode2Menu);
+                    var tourneyChampionNode3Menu = CreateTourneyChampionNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(tourneyChampionNode3Menu);
+                    var tourneyChampionNode4Menu = CreateTourneyChampionNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(tourneyChampionNode4Menu);
+                    OriginLog.Info("已添加比武场的落魄冠军4个节点菜单");
+
+                    // 侍奉骑士团的扈从(4个节点)
+                    var orderSquireNode1Menu = CreateOrderSquireNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(orderSquireNode1Menu);
+                    var orderSquireNode2Menu = CreateOrderSquireNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(orderSquireNode2Menu);
+                    var orderSquireNode3Menu = CreateOrderSquireNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(orderSquireNode3Menu);
+                    var orderSquireNode4Menu = CreateOrderSquireNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(orderSquireNode4Menu);
+                    OriginLog.Info("已添加侍奉骑士团的扈从4个节点菜单");
+
+                    // 雇佣军连队副官(4个节点) - TODO: 实现菜单创建方法
+                    // var sellswordLieutenantNode1Menu = CreateSellswordLieutenantNode1Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(sellswordLieutenantNode1Menu);
+                    // var sellswordLieutenantNode2Menu = CreateSellswordLieutenantNode2Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(sellswordLieutenantNode2Menu);
+                    // var sellswordLieutenantNode3Menu = CreateSellswordLieutenantNode3Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(sellswordLieutenantNode3Menu);
+                    // var sellswordLieutenantNode4Menu = CreateSellswordLieutenantNode4Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(sellswordLieutenantNode4Menu);
+                    OriginLog.Info("已添加雇佣军连队副官4个节点菜单 (暂未实现)");
+
+                    // 王室税吏的护卫(4个节点)
+                    var taxBailiffEnforcerNode1Menu = CreateTaxBailiffEnforcerNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(taxBailiffEnforcerNode1Menu);
+                    var taxBailiffEnforcerNode2Menu = CreateTaxBailiffEnforcerNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(taxBailiffEnforcerNode2Menu);
+                    var taxBailiffEnforcerNode3Menu = CreateTaxBailiffEnforcerNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(taxBailiffEnforcerNode3Menu);
+                    var taxBailiffEnforcerNode4Menu = CreateTaxBailiffEnforcerNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(taxBailiffEnforcerNode4Menu);
+                    OriginLog.Info("已添加王室税吏的护卫4个节点菜单");
+
+                    // 自由民团的推旗人(4个节点)
+                    var freeMilitiaLeaderNode1Menu = CreateFreeMilitiaLeaderNode1Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(freeMilitiaLeaderNode1Menu);
+                    var freeMilitiaLeaderNode2Menu = CreateFreeMilitiaLeaderNode2Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(freeMilitiaLeaderNode2Menu);
+                    var freeMilitiaLeaderNode3Menu = CreateFreeMilitiaLeaderNode3Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(freeMilitiaLeaderNode3Menu);
+                    var freeMilitiaLeaderNode4Menu = CreateFreeMilitiaLeaderNode4Menu(characterCreationManager);
+                    characterCreationManager.AddNewMenu(freeMilitiaLeaderNode4Menu);
+                    OriginLog.Info("已添加自由民团的推旗人4个节点菜单");
+
+                    // 堕落无赖骑士(4个节点，黑旗匪首的分支) - TODO: 实现菜单创建方法
+                    // var degradedRogueKnightNode1Menu = CreateDegradedRogueKnightNode1Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(degradedRogueKnightNode1Menu);
+                    // var degradedRogueKnightNode2Menu = CreateDegradedRogueKnightNode2Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(degradedRogueKnightNode2Menu);
+                    // var degradedRogueKnightNode3Menu = CreateDegradedRogueKnightNode3Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(degradedRogueKnightNode3Menu);
+                    // var degradedRogueKnightNode4Menu = CreateDegradedRogueKnightNode4Menu(characterCreationManager);
+                    // characterCreationManager.AddNewMenu(degradedRogueKnightNode4Menu);
+                    OriginLog.Info("已添加堕落无赖骑士4个节点菜单 (暂未实现)");
+
                     var nonPresetCultureMenu = CreateNonPresetCultureAnchorMenu(characterCreationManager);
                     characterCreationManager.AddNewMenu(nonPresetCultureMenu);
                     OriginLog.Info("已添非预文化锚点菜单");
@@ -208,11 +330,11 @@ namespace OriginSystemMod
 
                     var nonPresetSkillMenu = CreateNonPresetSkillBackgroundMenu(characterCreationManager);
                     characterCreationManager.AddNewMenu(nonPresetSkillMenu);
-                    OriginLog.Info("已添非预技能来菜单");
+                    OriginLog.Info("已添加非预设技能背景菜单");
 
                     var nonPresetConditionMenu = CreateNonPresetStartingConditionMenu(characterCreationManager);
                     characterCreationManager.AddNewMenu(nonPresetConditionMenu);
-                    OriginLog.Info("已添非预当前状菜单");
+                    OriginLog.Info("已添加非预设当前状态菜单");
 
                     // 4. 重新添加"父母菜单"(InputMenuId = "origin_type_selection")
                     if (parentMenu != null)

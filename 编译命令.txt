@@ -1,0 +1,27 @@
+# Visual Studio 2022 开发者 PowerShell 编译命令
+
+# 方法1: 使用 MSBuild（推荐）
+# 首先切换到项目目录
+cd "D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\OriginSystemMod"
+
+# 使用 MSBuild 编译（Release 配置）
+& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" OriginSystemMod.csproj /p:Configuration=Release /p:Platform=AnyCPU /t:Rebuild
+
+# 或者如果安装了其他版本，使用：
+# Professional: & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe"
+# Enterprise: & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+
+# 方法2: 使用 dotnet build（如果安装了 .NET SDK）
+dotnet build OriginSystemMod.csproj -c Release --no-incremental
+
+# 方法3: 使用 vswhere 查找 MSBuild 路径（最可靠）
+$msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+& $msbuildPath OriginSystemMod.csproj /p:Configuration=Release /p:Platform=AnyCPU /t:Rebuild
+
+# 检查编译结果
+if (Test-Path "bin\Win64_Shipping_Client\OriginSystemMod.dll") {
+    Write-Host "编译成功！DLL 已生成在: bin\Win64_Shipping_Client\OriginSystemMod.dll" -ForegroundColor Green
+} else {
+    Write-Host "编译失败，DLL 未生成" -ForegroundColor Red
+}
+

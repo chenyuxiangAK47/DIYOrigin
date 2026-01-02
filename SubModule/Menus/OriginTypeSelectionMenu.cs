@@ -12,7 +12,7 @@ namespace OriginSystemMod
     {
         #region Origin Type Selection Menu
 
-        private static NarrativeMenu CreateOriginTypeSelectionMenu(CharacterCreationManager manager)
+        public static NarrativeMenu CreateOriginTypeSelectionMenu(CharacterCreationManager manager)
         {
             var characters = new List<NarrativeMenuCharacter>();
 

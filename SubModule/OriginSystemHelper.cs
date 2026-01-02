@@ -42,6 +42,13 @@ namespace OriginSystemMod
         // minor_noble 出身：待处理的加入库塞特王国（延迟到 OnSessionLaunched 执行）
         public static bool PendingMinorNobleJoinKhuzait { get; set; } = false;
 
+        // 瓦兰迪亚黑道线出身：是否永久无法加入瓦兰迪亚
+        public static bool IsVlandiaOutlaw { get; set; } = false;
+        public static bool NoVlandiaJoin { get; set; } = false;
+        
+        // 瓦兰迪亚堕落无赖骑士：是否是失格骑士（黑旗匪首的分支）
+        public static bool IsVlandiaRogueKnight { get; set; } = false;
+
         /// <summary>
         /// 兼容获取所有英雄列表（跨版本兼容）
         /// </summary>
@@ -154,4 +161,3 @@ namespace OriginSystemMod
         }
     }
 }
-

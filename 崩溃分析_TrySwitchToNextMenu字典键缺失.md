@@ -338,3 +338,18 @@ public static class OnNarrativeMenuOptionSelectedPatch
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
