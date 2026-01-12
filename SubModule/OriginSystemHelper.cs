@@ -39,6 +39,9 @@ namespace OriginSystemMod
         public static string PendingStartDirection { get; set; } = null; // "desert" 或 "empire"
         public static string PendingStartSettlementId { get; set; } = null; // 目标定居点 ID
 
+        // 瓦兰迪亚远征骑士：待处理的出生位置（延迟执行）
+        public static string PendingVlandiaStartLocation { get; set; } = null; // e.g. "nord", "aserai"
+
         // minor_noble 出身：待处理的加入库塞特王国（延迟到 OnSessionLaunched 执行）
         public static bool PendingMinorNobleJoinKhuzait { get; set; } = false;
 

@@ -320,6 +320,40 @@ namespace OriginSystemMod
                         OriginLog.Error($"[SlaveEscape][Teleport] StackTrace: {ex.StackTrace}");
                     }
                 }
+                }
+
+            // Fix for Vlandia Movement: Check PendingVlandiaStartLocation
+            if (!string.IsNullOrEmpty(OriginSystemHelper.PendingVlandiaStartLocation))
+            {
+                 _teleportDelay += dt;
+                 if (_teleportDelay >= TELEPORT_DELAY_SECONDS)
+                 {
+                    try
+                    {
+                        if (Hero.MainHero != null && MobileParty.MainParty != null && Campaign.Current != null)
+                        {
+                            var location = OriginSystemHelper.PendingVlandiaStartLocation;
+                            OriginLog.Info($"[Vlandia][Teleport] Executing pending move to: {location}");
+                            
+                            // Use the generic SetPresetOriginStartingLocation which handles cultureIds like "nord", "vlandia"
+                            bool success = PresetOriginSystem.SetPresetOriginStartingLocation(MobileParty.MainParty, location, null);
+                            
+                            // Clear pending to stop retrying
+                            OriginSystemHelper.PendingVlandiaStartLocation = null;
+                            
+                            if (success) {
+                                OriginLog.Info("[Vlandia][Teleport] Success.");
+                                _verifyNextTick = true; // reusing verification logic
+                            } else {
+                                OriginLog.Warning("[Vlandia][Teleport] Failed.");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        OriginLog.Error($"[Vlandia][Teleport] Exception: {ex.Message}");
+                    }
+                 }
             }
         }
     }

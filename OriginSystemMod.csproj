@@ -117,9 +117,8 @@
     <Compile Include="SubModule\Routing\OriginRoutes.Khuzait.cs" />
     <Compile Include="SubModule\Routing\OriginRoutes.Vlandia.cs" />
     <Compile Include="SubModule\Routing\OriginRoutes.NonPreset.cs" />
-    <Compile Include="SubModule\Quests\ExpeditionKnightQuest.cs" />
+    <Compile Include="SubModule\Quests\ExpeditionOathQuest.cs" />
     <Compile Include="SubModule\VlandiaOriginSystem.cs" />
-    <Compile Include="SubModule\VlandiaOriginSystem.LuxuryEquipment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
