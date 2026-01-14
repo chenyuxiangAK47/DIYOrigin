@@ -149,7 +149,7 @@ namespace OriginSystemMod
 
                     if (!string.IsNullOrEmpty(villageId))
                     {
-                        bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: true);
+                        bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: false);
                         if (success)
                         {
                             _hasAppliedSpawnLocation = true;
@@ -178,7 +178,7 @@ namespace OriginSystemMod
                     
                     if (!string.IsNullOrEmpty(villageId))
                     {
-                        bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: true);
+                        bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: false);
                         if (success)
                         {
                             _hasAppliedSpawnLocation = true;
@@ -417,7 +417,7 @@ namespace OriginSystemMod
 
                                 if (!string.IsNullOrEmpty(villageId))
                                 {
-                                    bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: true);
+                                    bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: false);
                                     
                                     // 无论成功失败都清空 Pending，避免死循环
                                     _hasAppliedSpawnLocation = true;
@@ -477,7 +477,7 @@ namespace OriginSystemMod
                                 
                                 if (!string.IsNullOrEmpty(villageId))
                                 {
-                                    bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: true);
+                                    bool success = OriginSpawnHelper.SpawnPlayerAtVillage(villageId, enterSettlementMenu: false);
                                     
                                     // Clear pending to stop retrying
                                     _hasAppliedSpawnLocation = true;
