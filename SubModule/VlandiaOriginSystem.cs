@@ -5,7 +5,9 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
+using TaleWorlds.CampaignSystem.Settlements;
 
 namespace OriginSystemMod
 {
@@ -22,6 +24,7 @@ namespace OriginSystemMod
             try
             {
                 OriginLog.Info("[ExpeditionKnight] 开始应用远征的骑士出身");
+                Debug.Print("[OriginSystem] [ExpeditionKnight] 开始应用远征的骑士出身", 0, Debug.DebugColor.Green);
 
                 // 基础设置
                 PresetOriginSystem.SetClanTier(clan, 3);
@@ -33,23 +36,58 @@ namespace OriginSystemMod
 
                 // 设置出生位置（根据Node2的誓言选择决定）
                 var selectedNodes = OriginSystemHelper.SelectedPresetOriginNodes;
-                if (selectedNodes.ContainsKey("vla_node_expedition_oath"))
+                // 注意：节点键名是 "vla_node_expedition_knight_oath"，不是 "vla_node_expedition_oath"
+                string oath = null;
+                if (selectedNodes.ContainsKey("vla_node_expedition_knight_oath"))
                 {
-                    string oath = selectedNodes["vla_node_expedition_oath"];
-                    string startLocation = GetExpeditionKnightStartLocation(oath);
+                    oath = selectedNodes["vla_node_expedition_knight_oath"];
+                }
+                else if (selectedNodes.ContainsKey("vla_node_expedition_oath"))
+                {
+                    // 兼容旧键名
+                    oath = selectedNodes["vla_node_expedition_oath"];
+                }
+                
+                if (!string.IsNullOrEmpty(oath))
+                {
+                    // 映射值：节点保存的是 "kill_1000_sea_raiders"，但函数期望 "kill_sea_raiders"
+                    string normalizedOath = oath;
+                    if (oath == "kill_1000_sea_raiders")
+                    {
+                        normalizedOath = "kill_sea_raiders";
+                    }
+                    else if (oath == "conquer_quyaz")
+                    {
+                        normalizedOath = "conquer_gyaz";
+                    }
+                    else if (oath == "kill_battania_noble")
+                    {
+                        normalizedOath = "kill_battanian_lord";
+                    }
+                    else if (oath == "recover_relic")
+                    {
+                        normalizedOath = "recover_banner";
+                    }
+                    
+                    string startLocation = GetExpeditionKnightStartLocation(normalizedOath);
                     if (!string.IsNullOrEmpty(startLocation))
                     {
-                        // PresetOriginSystem.SetPresetOriginStartingLocation(party, startLocation);
-                        // Modified to use pending location for delayed teleport (fix for movement issue)
                         OriginSystemHelper.PendingVlandiaStartLocation = startLocation;
-                        OriginLog.Info($"[ExpeditionKnight] Movement pending to: {startLocation}");
+                        OriginLog.Info($"[ExpeditionKnight] Movement pending to: {startLocation} (oath={oath}, normalized={normalizedOath})");
+                        Debug.Print($"[OriginSystem] [ExpeditionKnight] Movement pending to: {startLocation}", 0, Debug.DebugColor.Green);
+                    }
+                    else
+                    {
+                        OriginSystemHelper.PendingVlandiaStartLocation = "vlandia";
+                        OriginLog.Warning($"[ExpeditionKnight] 未找到对应位置，使用默认 vlandia (oath={oath})");
                     }
                 }
                 else
                 {
                     // PresetOriginSystem.SetPresetOriginStartingLocation(party, "vlandia");
                     OriginSystemHelper.PendingVlandiaStartLocation = "vlandia";
-                    OriginLog.Info($"[ExpeditionKnight] Movement pending to: vlandia (default)");
+                    OriginLog.Info($"[ExpeditionKnight] Movement pending to: vlandia (default, no oath selected)");
+                    Debug.Print($"[OriginSystem] [ExpeditionKnight] Movement pending to: vlandia (default)", 0, Debug.DebugColor.Green);
                 }
 
                 // 应用节点效果
@@ -60,6 +98,12 @@ namespace OriginSystemMod
 
                 // 创建哥哥NPC（固定存在）
                 CreateExpeditionKnightBrother(hero, clan);
+
+                // 创建誓言任务（如果选择了杀1000海寇的誓言）
+                if (!string.IsNullOrEmpty(oath) && (oath == "kill_sea_raiders" || oath == "kill_1000_sea_raiders"))
+                {
+                    CreateExpeditionKnightOathQuest(hero, oath);
+                }
 
                 OriginLog.Info("[ExpeditionKnight] 远征的骑士出身应用完成");
             }
@@ -190,11 +234,63 @@ namespace OriginSystemMod
         {
             try
             {
-                OriginLog.Info("[ExpeditionKnight] 需要创建哥哥NPC（待实现）");
+                OriginLog.Info("[ExpeditionKnight] 开始创建哥哥NPC");
+                Debug.Print("[OriginSystem] [ExpeditionKnight] 开始创建哥哥NPC", 0, Debug.DebugColor.Green);
+
+                if (hero == null || clan == null)
+                {
+                    OriginLog.Warning("[ExpeditionKnight] hero 或 clan 为 null，无法创建哥哥");
+                    return;
+                }
+
+                // 获取家族定居点
+                Settlement birthSettlement = clan.HomeSettlement;
+                if (birthSettlement == null)
+                {
+                    // 如果没有定居点，使用瓦兰迪亚的随机城镇
+                    birthSettlement = Settlement.All.FirstOrDefault(s => s != null && s.IsTown && s.Culture != null && s.Culture.StringId == "vlandia");
+                    if (birthSettlement == null)
+                    {
+                        OriginLog.Warning("[ExpeditionKnight] 找不到合适的定居点创建哥哥");
+                        return;
+                    }
+                }
+
+                // 创建哥哥Hero（使用CreateChild，但年龄设置为比玩家大2-5岁）
+                int playerAge = (int)hero.Age;
+                int brotherAge = playerAge + MBRandom.RandomInt(2, 6); // 哥哥比玩家大2-6岁
+                
+                Hero brother = HeroCreator.CreateChild(hero.CharacterObject, birthSettlement, clan, brotherAge);
+                
+                if (brother == null)
+                {
+                    OriginLog.Error("[ExpeditionKnight] HeroCreator.CreateChild 返回 null");
+                    return;
+                }
+
+                // 设置哥哥的属性
+                brother.UpdateHomeSettlement();
+                brother.HeroDeveloper.InitializeHeroDeveloper();
+                
+                // 设置名字（使用文化相关的名字）
+                // 注意：名字通常由游戏自动生成，但我们可以通过CharacterObject设置
+                
+                // 将哥哥添加到玩家队伍作为同伴
+                AddCompanionAction.Apply(Clan.PlayerClan, brother);
+                
+                // 如果玩家队伍存在，将哥哥添加到队伍中
+                if (MobileParty.MainParty != null)
+                {
+                    MobileParty.MainParty.MemberRoster.AddToCounts(brother.CharacterObject, 1);
+                }
+
+                OriginLog.Info($"[ExpeditionKnight] ✅ 哥哥NPC创建成功: {brother.Name} (年龄: {brother.Age}, 玩家年龄: {playerAge})");
+                Debug.Print($"[OriginSystem] [ExpeditionKnight] ✅ 哥哥NPC创建成功: {brother.Name}", 0, Debug.DebugColor.Green);
             }
             catch (Exception ex)
             {
                 OriginLog.Error($"[ExpeditionKnight] 创建哥哥NPC失败: {ex.Message}");
+                OriginLog.Error($"[ExpeditionKnight] StackTrace: {ex.StackTrace}");
             }
         }
 
@@ -206,37 +302,31 @@ namespace OriginSystemMod
             try
             {
                 OriginLog.Info($"[ExpeditionKnight] 创建誓言任务: {oath}");
-                if (oath == "kill_sea_raiders")
+                Debug.Print($"[OriginSystem] [ExpeditionKnight] 创建誓言任务: {oath}", 0, Debug.DebugColor.Green);
+                
+                if (oath == "kill_sea_raiders" || oath == "kill_1000_sea_raiders")
                 {
-                    // Create and start the quest
-                    // using reflection or direct instantiation if namespace is available. 
-                    // Since we are in the same assembly, we can try direct.
-                    // We need to be careful about the Quest not being started properly.
-                    // Usually quests are started by a QuestGiver. Here we self-assign.
+                    // 根据反编译结果：QuestBase(string questId, Hero questGiver, CampaignTime dueTime, int rewardGold)
+                    string questId = "expedition_oath_quest_kill_sea_raiders";
                     
-                    // Note: Direct Quest instantiation is tricky in BL. 
-                    // Alternatively, we define a campaign behavior to manage this "Quest" if QuestBase is too complex to inject lightly.
-                    // But user specifically asked for "Mission/Quest appeared".
+                    // 创建任务实例
+                    var quest = new OriginSystemMod.Quests.ExpeditionOathQuest(questId, hero);
                     
-                    // Simple approach: Add to Campaign.Current.QuestManager if possible, or just start it.
-                    // new ExpeditionOathQuest(hero.StringId, oath, 1000).StartQuest();
+                    // 启动任务（StartQuest会自动调用）
+                    quest.StartQuest();
                     
-                    // Since I cannot be 100% sure of the QuestBase API signature in this version (constructors vary), 
-                    // I will use a safe reflection approach or a simplified shell.
-                    // But looking at the user's request, they want to SEE it.
-                    
-                    try {
-                        var quest = new OriginSystemMod.Quests.ExpeditionOathQuest(hero.StringId, oath, 1000);
-                        quest.StartQuest();
-                        OriginLog.Info("[ExpeditionKnight] Quest started successfully.");
-                    } catch (Exception qEx) {
-                        OriginLog.Error($"[ExpeditionKnight] Quest start failed: {qEx.Message}");
-                    }
+                    OriginLog.Info("[ExpeditionKnight] ✅ 誓言任务创建并启动成功");
+                    Debug.Print("[OriginSystem] [ExpeditionKnight] ✅ 誓言任务创建并启动成功", 0, Debug.DebugColor.Green);
+                }
+                else
+                {
+                    OriginLog.Info($"[ExpeditionKnight] 誓言类型 '{oath}' 暂不支持创建任务");
                 }
             }
             catch (Exception ex)
             {
                 OriginLog.Error($"[ExpeditionKnight] 创建任务失败: {ex.Message}");
+                OriginLog.Error($"[ExpeditionKnight] StackTrace: {ex.StackTrace}");
             }
         }
 
@@ -303,9 +393,13 @@ namespace OriginSystemMod
                         OriginLog.Info("[DegradedRogueKnight] 已与瓦兰迪亚宣战");
                     }
 
-                    foreach (var lord in vlandiaKingdom.Lords.Where(h => h.IsLord))
+                    // 获取王国所有领主（通过氏族）
+                    foreach (var clan in vlandiaKingdom.Clans)
                     {
-                        ChangeRelationAction.ApplyPlayerRelation(lord, -80);
+                        if (clan != null && clan.Leader != null && clan.Leader.IsLord)
+                        {
+                            ChangeRelationAction.ApplyPlayerRelation(clan.Leader, -80);
+                        }
                     }
                 }
 
@@ -319,18 +413,26 @@ namespace OriginSystemMod
                         OriginLog.Info("[DegradedRogueKnight] 已与帝国宣战");
                     }
 
-                    foreach (var lord in empireKingdom.Lords.Where(h => h.IsLord))
+                    // 获取王国所有领主（通过氏族）
+                    foreach (var clan in empireKingdom.Clans)
                     {
-                        ChangeRelationAction.ApplyPlayerRelation(lord, -80);
+                        if (clan != null && clan.Leader != null && clan.Leader.IsLord)
+                        {
+                            ChangeRelationAction.ApplyPlayerRelation(clan.Leader, -80);
+                        }
                     }
                 }
 
                 // 与巴丹尼亚贵族关系-80（但不一定开战）
                 if (battaniaKingdom != null)
                 {
-                    foreach (var lord in battaniaKingdom.Lords.Where(h => h.IsLord))
+                    // 获取王国所有领主（通过氏族）
+                    foreach (var clan in battaniaKingdom.Clans)
                     {
-                        ChangeRelationAction.ApplyPlayerRelation(lord, -80);
+                        if (clan != null && clan.Leader != null && clan.Leader.IsLord)
+                        {
+                            ChangeRelationAction.ApplyPlayerRelation(clan.Leader, -80);
+                        }
                     }
                 }
 
@@ -541,7 +643,11 @@ namespace OriginSystemMod
                 var vlandiaKingdom = FindKingdom("kingdom_vlandia");
                 if (vlandiaKingdom != null)
                 {
-                    var lords = vlandiaKingdom.Lords.Where(h => h.IsLord && h != hero).ToList();
+                    // 获取王国所有领主（通过氏族）
+                    var lords = vlandiaKingdom.Clans
+                        .Where(c => c != null && c.Leader != null && c.Leader.IsLord && c.Leader != hero)
+                        .Select(c => c.Leader)
+                        .ToList();
                     if (lords.Count > 0)
                     {
                         var randomLord = lords[new Random().Next(lords.Count)];

@@ -522,6 +522,7 @@ namespace OriginSystemMod
         private static void ExpeditionKnightOnSelect(CharacterCreationManager characterCreationManager)
         {
             OriginLog.Info("User selected Expedition Knight");
+            Debug.Print("[OriginSystem] User selected Expedition Knight", 0, Debug.DebugColor.Green);
             OriginSystemHelper.SelectedPresetOriginId = "vlandia_expedition_knight";
             OriginSystemHelper.IsPresetOrigin = true;
         }

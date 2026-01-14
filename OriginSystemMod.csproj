@@ -55,6 +55,10 @@
       <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.Localization.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="TaleWorlds.SaveSystem">
+      <HintPath>..\..\bin\Win64_Shipping_Client\TaleWorlds.SaveSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="0Harmony">
       <HintPath>D:\SteamLibrary\steamapps\workshop\content\261550\2859188632\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
       <Private>False</Private>
@@ -119,6 +123,7 @@
     <Compile Include="SubModule\Routing\OriginRoutes.NonPreset.cs" />
     <Compile Include="SubModule\Quests\ExpeditionOathQuest.cs" />
     <Compile Include="SubModule\VlandiaOriginSystem.cs" />
+    <Compile Include="SubModule\OriginSpawnHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

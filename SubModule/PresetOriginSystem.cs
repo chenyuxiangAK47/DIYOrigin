@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.ObjectSystem;
 
 namespace OriginSystemMod
 {
@@ -15,16 +18,20 @@ namespace OriginSystemMod
     /// </summary>
     public static class PresetOriginSystem
     {
-        public static void ApplyPresetOrigin(string originId)
+        /// <summary>
+        /// 应用预设出身。返回是否成功执行（命中分支且未因空对象早退）。
+        /// </summary>
+        public static bool ApplyPresetOrigin(string originId)
         {
             try
             {
                 OriginLog.Info($"[ApplyPresetOrigin] originId={originId ?? "null"}");
+                Debug.Print($"[OriginSystem] [ApplyPresetOrigin] originId={originId ?? "null"}", 0, Debug.DebugColor.Green);
 
                 if (string.IsNullOrWhiteSpace(originId))
                 {
                     OriginLog.Warning("[ApplyPresetOrigin] originId is null/empty, skip.");
-                    return;
+                    return false;
                 }
 
                 var hero = Hero.MainHero;
@@ -34,23 +41,25 @@ namespace OriginSystemMod
                 if (hero == null || clan == null || party == null)
                 {
                     OriginLog.Warning("[ApplyPresetOrigin] Hero/Clan/Party is null, cannot apply origin.");
-                    return;
+                    return false;
                 }
 
                 // 瓦兰迪亚出身
-                if (originId == EKKeys.OriginId || originId == "vlandia_expedition_knight" || originId.Contains("expedition_knight"))
+                if (originId == "vlandia_expedition_knight" || originId.Contains("expedition_knight"))
                 {
                     OriginLog.Info($"[ApplyPresetOrigin] 调用远征骑士出身逻辑 (originId={originId})");
                     VlandiaOriginSystem.ApplyExpeditionKnightOrigin(hero, clan, party);
-                    return;
+                    return true;
                 }
 
                 // 其他出身...
                 OriginLog.Info($"[ApplyPresetOrigin] Processing originId={originId} (logic to be migrated)");
+                return true; // 已处理（占位）
             }
             catch (Exception ex)
             {
                 OriginLog.Error($"[ApplyPresetOrigin] Exception: {ex}");
+                return false;
             }
         }
 
@@ -346,5 +355,237 @@ namespace OriginSystemMod
                 return false;
             }
         }
+
+        #region 辅助方法
+
+        /// <summary>
+        /// 设置家族等级
+        /// </summary>
+        public static void SetClanTier(Clan clan, int tier)
+        {
+            if (clan == null)
+            {
+                OriginLog.Warning($"[SetClanTier] clan is null, tier={tier}");
+                return;
+            }
+            
+            try
+            {
+                var beforeTier = clan.Tier;
+                OriginLog.Info($"[SetClanTier] 开始设置家族等级 clan={clan.Name?.ToString() ?? "null"}, tier={tier}, beforeTier={beforeTier}");
+                
+                var tierProperty = typeof(Clan).GetProperty("Tier", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                if (tierProperty != null && tierProperty.CanWrite)
+                {
+                    tierProperty.SetValue(clan, tier);
+                    OriginLog.Info($"[SetClanTier] 通过Tier属性设置成功 tier={tier}");
+                }
+                else
+                {
+                    var changeClanTierType = Type.GetType("TaleWorlds.CampaignSystem.Actions.ChangeClanTierAction, TaleWorlds.CampaignSystem");
+                    if (changeClanTierType != null)
+                    {
+                        var applyMethod = changeClanTierType.GetMethod("Apply", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                        if (applyMethod != null)
+                        {
+                            applyMethod.Invoke(null, new object[] { clan, tier });
+                            OriginLog.Info($"[SetClanTier] 使用ChangeClanTierAction设置成功 tier={tier}");
+                        }
+                    }
+                }
+                
+                var afterTier = clan.Tier;
+                OriginLog.Info($"[SetClanTier] 设置完成: tier: {beforeTier} -> {afterTier}");
+            }
+            catch (Exception ex)
+            {
+                OriginLog.Error($"[SetClanTier] 设置家族等级失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 增加声望
+        /// </summary>
+        public static void GainRenown(Hero hero, int amount)
+        {
+            if (hero == null || hero.Clan == null)
+            {
+                OriginLog.Warning("[GainRenown] hero or hero.Clan is null");
+                return;
+            }
+            
+            try
+            {
+                var beforeRenown = hero.Clan.Renown;
+                OriginLog.Info($"[GainRenown] Before: hero={hero.Name?.ToString() ?? "null"}, clan={hero.Clan.Name?.ToString() ?? "null"}, renown={beforeRenown}, amount={amount}");
+                
+                bool success = false;
+                var gainRenownType = Type.GetType("TaleWorlds.CampaignSystem.Actions.GainRenownAction, TaleWorlds.CampaignSystem");
+                if (gainRenownType != null)
+                {
+                    var applyMethod = gainRenownType.GetMethod("Apply", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                    if (applyMethod != null)
+                    {
+                        applyMethod.Invoke(null, new object[] { hero, amount });
+                        OriginLog.Info($"[GainRenown] GainRenownAction.Apply called successfully");
+                        success = true;
+                    }
+                }
+                
+                if (!success)
+                {
+                    var renownProperty = typeof(Clan).GetProperty("Renown", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    if (renownProperty != null && renownProperty.CanWrite)
+                    {
+                        var currentRenown = (float)renownProperty.GetValue(hero.Clan);
+                        renownProperty.SetValue(hero.Clan, currentRenown + amount);
+                        OriginLog.Info($"[GainRenown] Directly set Clan.Renown: {currentRenown} + {amount} = {currentRenown + amount}");
+                        success = true;
+                    }
+                    else
+                    {
+                        var renownField = typeof(Clan).GetField("_renown", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        if (renownField != null)
+                        {
+                            var currentRenown = (float)renownField.GetValue(hero.Clan);
+                            renownField.SetValue(hero.Clan, currentRenown + amount);
+                            OriginLog.Info($"[GainRenown] Directly set Clan._renown field: {currentRenown} + {amount} = {currentRenown + amount}");
+                            success = true;
+                        }
+                    }
+                }
+                
+                var afterRenown = hero.Clan.Renown;
+                OriginLog.Info($"[GainRenown] After: renown={afterRenown}, expected={beforeRenown + amount}, success={success}");
+            }
+            catch (Exception ex)
+            {
+                OriginLog.Error($"[GainRenown] Exception: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 添加金币
+        /// </summary>
+        public static void AddGold(Hero hero, int amount)
+        {
+            if (hero == null)
+            {
+                OriginLog.Warning($"[AddGold] hero is null, amount={amount}");
+                return;
+            }
+            
+            try
+            {
+                var beforeGold = hero.Gold;
+                OriginLog.Info($"[AddGold] 开始添加金币 hero={hero.Name?.ToString() ?? "null"}, amount={amount}, beforeGold={beforeGold}");
+                
+                GiveGoldAction.ApplyBetweenCharacters(null, hero, amount, false);
+                
+                var afterGold = hero.Gold;
+                OriginLog.Info($"[AddGold] 成功添加金币: amount={amount}, gold: {beforeGold} -> {afterGold}");
+            }
+            catch (Exception ex)
+            {
+                OriginLog.Error($"[AddGold] 添加金币失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 添加技能
+        /// </summary>
+        public static void AddSkill(Hero hero, string skillName, int points)
+        {
+            if (hero == null || hero.HeroDeveloper == null) return;
+            
+            try
+            {
+                var skillIdMap = new Dictionary<string, string>
+                {
+                    { "onehand", "OneHanded" },
+                    { "twohand", "TwoHanded" },
+                    { "polearm", "Polearm" },
+                    { "bow", "Bow" },
+                    { "crossbow", "Crossbow" },
+                    { "throwing", "Throwing" },
+                    { "riding", "Riding" },
+                    { "athletics", "Athletics" },
+                    { "crafting", "Crafting" },
+                    { "tactics", "Tactics" },
+                    { "scouting", "Scouting" },
+                    { "roguery", "Roguery" },
+                    { "leadership", "Leadership" },
+                    { "charm", "Charm" },
+                    { "trade", "Trade" },
+                    { "steward", "Steward" },
+                    { "medicine", "Medicine" },
+                    { "engineering", "Engineering" }
+                };
+
+                var skillId = skillIdMap.ContainsKey(skillName.ToLower()) ? skillIdMap[skillName.ToLower()] : skillName;
+                
+                var skill = MBObjectManager.Instance.GetObject<SkillObject>(skillId);
+                if (skill != null)
+                {
+                    var beforeLevel = hero.GetSkillValue(skill);
+                    hero.HeroDeveloper.AddSkillXp(skill, points * 100, true, true);
+                    var afterLevel = hero.GetSkillValue(skill);
+                    OriginLog.Info($"[AddSkill] 成功添加技能 hero={hero.Name?.ToString() ?? "null"}, skill={skillName} ({skillId}), points={points}, level: {beforeLevel} -> {afterLevel}");
+                }
+                else
+                {
+                    OriginLog.Warning($"[AddSkill] 未找到技能 skillName={skillName}, skillId={skillId}");
+                }
+            }
+            catch (Exception ex)
+            {
+                OriginLog.Error($"[AddSkill] 添加技能失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 设置犯罪度
+        /// </summary>
+        public static void SetCrimeRating(Kingdom kingdom, int rating)
+        {
+            try
+            {
+                if (kingdom == null || Campaign.Current == null)
+                {
+                    OriginLog.Warning($"[SetCrimeRating] 王国或Campaign为空，无法设置犯罪度");
+                    return;
+                }
+
+                var campaignType = typeof(Campaign);
+                var setCrimeRatingMethod = campaignType.GetMethod("SetCrimeRating", 
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+                
+                if (setCrimeRatingMethod != null)
+                {
+                    var parameters = setCrimeRatingMethod.GetParameters();
+                    if (parameters.Length == 2)
+                    {
+                        if (parameters[0].ParameterType == typeof(int))
+                        {
+                            setCrimeRatingMethod.Invoke(null, new object[] { rating, kingdom });
+                        }
+                        else
+                        {
+                            setCrimeRatingMethod.Invoke(null, new object[] { kingdom, rating });
+                        }
+                        OriginLog.Info($"[SetCrimeRating] 成功设置 {kingdom.Name} 犯罪度为 {rating}");
+                        return;
+                    }
+                }
+
+                OriginLog.Warning($"[SetCrimeRating] 无法找到设置犯罪度的方法");
+            }
+            catch (Exception ex)
+            {
+                OriginLog.Error($"[SetCrimeRating] 设置犯罪度失败: {ex.Message}");
+            }
+        }
+
+        #endregion
     }
 }
